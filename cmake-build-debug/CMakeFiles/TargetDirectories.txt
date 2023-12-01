@@ -1,0 +1,3 @@
+C:/Users/camil/OneDrive/Documents/Projects/Weaver/cmake-build-debug/CMakeFiles/Weaver.dir
+C:/Users/camil/OneDrive/Documents/Projects/Weaver/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/camil/OneDrive/Documents/Projects/Weaver/cmake-build-debug/CMakeFiles/rebuild_cache.dir
