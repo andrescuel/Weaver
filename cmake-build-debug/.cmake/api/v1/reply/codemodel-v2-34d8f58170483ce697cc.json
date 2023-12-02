@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "Weaver::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-Weaver-Debug-799574e0a5245bf485a8.json",
+					"jsonFile" : "target-Weaver-Debug-6f8fe27ab2473e92f396.json",
 					"name" : "Weaver",
 					"projectIndex" : 0
 				}
@@ -49,12 +49,12 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/camil/OneDrive/Documents/Projects/Weaver/cmake-build-debug",
-		"source" : "C:/Users/camil/OneDrive/Documents/Projects/Weaver"
+		"build" : "C:/Users/rubio/Downloads/ingenieria de sistemas/proyecto final/Weaver/cmake-build-debug",
+		"source" : "C:/Users/rubio/Downloads/ingenieria de sistemas/proyecto final/Weaver"
 	},
 	"version" : 
 	{
 		"major" : 2,
-		"minor" : 4
+		"minor" : 5
 	}
 }
