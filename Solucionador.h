@@ -1,7 +1,3 @@
-//
-// Created by rubio on 1/12/2023.
-//
-
 #ifndef WEAVER_SOLUCIONADOR_H
 #define WEAVER_SOLUCIONADOR_H
 

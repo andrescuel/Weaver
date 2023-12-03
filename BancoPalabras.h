@@ -1,7 +1,3 @@
-//
-// Created by camil on 30/11/2023.
-//
-
 #ifndef WEAVER_BANCOPALABRAS_H
 #define WEAVER_BANCOPALABRAS_H
 

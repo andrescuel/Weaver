@@ -1,7 +1,3 @@
-//
-// Created by camil on 30/11/2023.
-//
-
 #include "BancoPalabras.h"
 
 BancoPalabras::BancoPalabras(const vector<string>& palabras) : palabras(palabras) {

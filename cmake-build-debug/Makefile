@@ -176,6 +176,30 @@ Solucionador.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/Solucionador.cpp.s
 .PHONY : Solucionador.cpp.s
 
+Vista.obj: Vista.cpp.obj
+.PHONY : Vista.obj
+
+# target to build an object file
+Vista.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/Vista.cpp.obj
+.PHONY : Vista.cpp.obj
+
+Vista.i: Vista.cpp.i
+.PHONY : Vista.i
+
+# target to preprocess a source file
+Vista.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/Vista.cpp.i
+.PHONY : Vista.cpp.i
+
+Vista.s: Vista.cpp.s
+.PHONY : Vista.s
+
+# target to generate assembly for a file
+Vista.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/Vista.cpp.s
+.PHONY : Vista.cpp.s
+
 main.obj: main.cpp.obj
 .PHONY : main.obj
 
@@ -215,6 +239,9 @@ help:
 	@echo ... Solucionador.obj
 	@echo ... Solucionador.i
 	@echo ... Solucionador.s
+	@echo ... Vista.obj
+	@echo ... Vista.i
+	@echo ... Vista.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

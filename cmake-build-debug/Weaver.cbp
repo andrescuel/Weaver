@@ -96,6 +96,12 @@
 		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/Solucionador.h">
 			<Option target="Weaver"/>
 		</Unit>
+		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/Vista.cpp">
+			<Option target="Weaver"/>
+		</Unit>
+		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/Vista.h">
+			<Option target="Weaver"/>
+		</Unit>
 		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/main.cpp">
 			<Option target="Weaver"/>
 		</Unit>

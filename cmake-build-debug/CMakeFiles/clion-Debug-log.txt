@@ -1,5 +1,0 @@
-"C:\Program Files\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - MinGW Makefiles" -S "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver" -B "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug"
--- Found SFML 2.6.1 in C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/libreria/SFML-2.6.1/lib/cmake/SFML
--- Configuring done (0.3s)
--- Generating done (0.1s)
--- Build files have been written to: C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/cmake-build-debug

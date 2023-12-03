@@ -1,7 +1,3 @@
-//
-// Created by rubio on 1/12/2023.
-//
-
 #include "Solucionador.h"
 
 Solucionador::Solucionador(const vector<string>& palabras): bancoPalabras(new BancoPalabras(palabras)) {
