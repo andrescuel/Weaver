@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/rubio/Downloads/ingenieria de sistemas/proyecto final/Weaver
+# Install script for directory: C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/rubio/Downloads/ingenieria de sistemas/proyecto final/Weaver/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

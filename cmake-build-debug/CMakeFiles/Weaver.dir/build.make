@@ -52,10 +52,10 @@ RM = "C:\Program Files\JetBrains\CLion 2023.2.2\bin\cmake\win\x64\bin\cmake.exe"
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver"
+CMAKE_SOURCE_DIR = "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug"
+CMAKE_BINARY_DIR = "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Weaver.dir/depend.make
@@ -69,46 +69,49 @@ include CMakeFiles/Weaver.dir/progress.make
 include CMakeFiles/Weaver.dir/flags.make
 
 CMakeFiles/Weaver.dir/main.cpp.obj: CMakeFiles/Weaver.dir/flags.make
-CMakeFiles/Weaver.dir/main.cpp.obj: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas/proyecto\ final/Weaver/main.cpp
+CMakeFiles/Weaver.dir/main.cpp.obj: CMakeFiles/Weaver.dir/includes_CXX.rsp
+CMakeFiles/Weaver.dir/main.cpp.obj: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas\ 3/Weaver/main.cpp
 CMakeFiles/Weaver.dir/main.cpp.obj: CMakeFiles/Weaver.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Weaver.dir/main.cpp.obj"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Weaver.dir/main.cpp.obj -MF CMakeFiles\Weaver.dir\main.cpp.obj.d -o CMakeFiles\Weaver.dir\main.cpp.obj -c "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\main.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Weaver.dir/main.cpp.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Weaver.dir/main.cpp.obj -MF CMakeFiles\Weaver.dir\main.cpp.obj.d -o CMakeFiles\Weaver.dir\main.cpp.obj -c "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\main.cpp"
 
 CMakeFiles/Weaver.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Weaver.dir/main.cpp.i"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\main.cpp" > CMakeFiles\Weaver.dir\main.cpp.i
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\main.cpp" > CMakeFiles\Weaver.dir\main.cpp.i
 
 CMakeFiles/Weaver.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Weaver.dir/main.cpp.s"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\main.cpp" -o CMakeFiles\Weaver.dir\main.cpp.s
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\main.cpp" -o CMakeFiles\Weaver.dir\main.cpp.s
 
 CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj: CMakeFiles/Weaver.dir/flags.make
-CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas/proyecto\ final/Weaver/BancoPalabras.cpp
+CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj: CMakeFiles/Weaver.dir/includes_CXX.rsp
+CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas\ 3/Weaver/BancoPalabras.cpp
 CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj: CMakeFiles/Weaver.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj -MF CMakeFiles\Weaver.dir\BancoPalabras.cpp.obj.d -o CMakeFiles\Weaver.dir\BancoPalabras.cpp.obj -c "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\BancoPalabras.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj -MF CMakeFiles\Weaver.dir\BancoPalabras.cpp.obj.d -o CMakeFiles\Weaver.dir\BancoPalabras.cpp.obj -c "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\BancoPalabras.cpp"
 
 CMakeFiles/Weaver.dir/BancoPalabras.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Weaver.dir/BancoPalabras.cpp.i"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\BancoPalabras.cpp" > CMakeFiles\Weaver.dir\BancoPalabras.cpp.i
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\BancoPalabras.cpp" > CMakeFiles\Weaver.dir\BancoPalabras.cpp.i
 
 CMakeFiles/Weaver.dir/BancoPalabras.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Weaver.dir/BancoPalabras.cpp.s"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\BancoPalabras.cpp" -o CMakeFiles\Weaver.dir\BancoPalabras.cpp.s
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\BancoPalabras.cpp" -o CMakeFiles\Weaver.dir\BancoPalabras.cpp.s
 
 CMakeFiles/Weaver.dir/Solucionador.cpp.obj: CMakeFiles/Weaver.dir/flags.make
-CMakeFiles/Weaver.dir/Solucionador.cpp.obj: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas/proyecto\ final/Weaver/Solucionador.cpp
+CMakeFiles/Weaver.dir/Solucionador.cpp.obj: CMakeFiles/Weaver.dir/includes_CXX.rsp
+CMakeFiles/Weaver.dir/Solucionador.cpp.obj: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas\ 3/Weaver/Solucionador.cpp
 CMakeFiles/Weaver.dir/Solucionador.cpp.obj: CMakeFiles/Weaver.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Weaver.dir/Solucionador.cpp.obj"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Weaver.dir/Solucionador.cpp.obj -MF CMakeFiles\Weaver.dir\Solucionador.cpp.obj.d -o CMakeFiles\Weaver.dir\Solucionador.cpp.obj -c "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\Solucionador.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Weaver.dir/Solucionador.cpp.obj"
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Weaver.dir/Solucionador.cpp.obj -MF CMakeFiles\Weaver.dir\Solucionador.cpp.obj.d -o CMakeFiles\Weaver.dir\Solucionador.cpp.obj -c "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\Solucionador.cpp"
 
 CMakeFiles/Weaver.dir/Solucionador.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Weaver.dir/Solucionador.cpp.i"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\Solucionador.cpp" > CMakeFiles\Weaver.dir\Solucionador.cpp.i
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\Solucionador.cpp" > CMakeFiles\Weaver.dir\Solucionador.cpp.i
 
 CMakeFiles/Weaver.dir/Solucionador.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Weaver.dir/Solucionador.cpp.s"
-	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\Solucionador.cpp" -o CMakeFiles\Weaver.dir\Solucionador.cpp.s
+	C:\PROGRA~1\JETBRA~1\CLION2~1.2\bin\mingw\bin\G__~1.EXE $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\Solucionador.cpp" -o CMakeFiles\Weaver.dir\Solucionador.cpp.s
 
 # Object files for target Weaver
 Weaver_OBJECTS = \
@@ -123,10 +126,13 @@ Weaver.exe: CMakeFiles/Weaver.dir/main.cpp.obj
 Weaver.exe: CMakeFiles/Weaver.dir/BancoPalabras.cpp.obj
 Weaver.exe: CMakeFiles/Weaver.dir/Solucionador.cpp.obj
 Weaver.exe: CMakeFiles/Weaver.dir/build.make
+Weaver.exe: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas\ 3/Weaver/libreria/SFML-2.6.1/lib/libsfml-graphics-d.a
+Weaver.exe: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas\ 3/Weaver/libreria/SFML-2.6.1/lib/libsfml-window-d.a
+Weaver.exe: C:/Users/rubio/Downloads/ingenieria\ de\ sistemas\ 3/Weaver/libreria/SFML-2.6.1/lib/libsfml-system-d.a
 Weaver.exe: CMakeFiles/Weaver.dir/linkLibs.rsp
 Weaver.exe: CMakeFiles/Weaver.dir/objects1.rsp
 Weaver.exe: CMakeFiles/Weaver.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Weaver.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable Weaver.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\Weaver.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -138,6 +144,6 @@ CMakeFiles/Weaver.dir/clean:
 .PHONY : CMakeFiles/Weaver.dir/clean
 
 CMakeFiles/Weaver.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver" "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver" "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug" "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug" "C:\Users\rubio\Downloads\ingenieria de sistemas\proyecto final\Weaver\cmake-build-debug\CMakeFiles\Weaver.dir\DependInfo.cmake" --color=$(COLOR)
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver" "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver" "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug" "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug" "C:\Users\rubio\Downloads\ingenieria de sistemas 3\Weaver\cmake-build-debug\CMakeFiles\Weaver.dir\DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/Weaver.dir/depend
 

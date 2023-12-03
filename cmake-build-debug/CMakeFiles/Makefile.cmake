@@ -31,11 +31,17 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/JetBrains/CLion 2023.2.2/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/Windows.cmake"
   "C:/Program Files/JetBrains/CLion 2023.2.2/bin/cmake/win/x64/share/cmake-3.26/Modules/Platform/WindowsPaths.cmake"
   "C:/Program Files/JetBrains/CLion 2023.2.2/bin/cmake/win/x64/share/cmake-3.26/Modules/ProcessorCount.cmake"
-  "C:/Users/rubio/Downloads/ingenieria de sistemas/proyecto final/Weaver/CMakeLists.txt"
+  "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/CMakeLists.txt"
   "CMakeFiles/3.26.4/CMakeCCompiler.cmake"
   "CMakeFiles/3.26.4/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.26.4/CMakeRCCompiler.cmake"
   "CMakeFiles/3.26.4/CMakeSystem.cmake"
+  "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/libreria/SFML-2.6.1/lib/cmake/SFML/SFMLConfig.cmake"
+  "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/libreria/SFML-2.6.1/lib/cmake/SFML/SFMLConfigDependencies.cmake"
+  "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/libreria/SFML-2.6.1/lib/cmake/SFML/SFMLConfigVersion.cmake"
+  "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/libreria/SFML-2.6.1/lib/cmake/SFML/SFMLSharedTargets-debug.cmake"
+  "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/libreria/SFML-2.6.1/lib/cmake/SFML/SFMLSharedTargets-release.cmake"
+  "C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/libreria/SFML-2.6.1/lib/cmake/SFML/SFMLSharedTargets.cmake"
   )
 
 # The corresponding makefile is:
