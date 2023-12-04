@@ -5,7 +5,7 @@
 
 class Vista {
 
-    std::string frace;
+    std::vector<std::string> palabras;
     sf::RenderWindow window;
     sf::Event eventos;
     sf::Font fuente;
@@ -17,7 +17,7 @@ public:
     Vista();
     //bucle principal
     void principal();
-    sf::Text imprimir();
+    sf::Text imprimir(std::string);
     void nuevaLinea();
     void tamañoLetra(int);
     void imprimirCuadrados();

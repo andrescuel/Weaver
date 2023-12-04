@@ -14,7 +14,7 @@ Vista::Vista(){
 void Vista::principal(){
 
     window.create(sf::VideoMode(800, 800), "SFML Window");
-
+    std::string texto;
 
     imprimirCuadrados();
 
@@ -29,10 +29,18 @@ void Vista::principal(){
 
             if (eventos.type == sf::Event::TextEntered) {
                 // Al presionar "Enter", agregar una nueva línea
-                if (eventos.text.unicode == '\r') {
-
+                if (eventos.text.unicode == '\r' && texto.size() == 4){
+                    palabras.push_back(texto);
                     nuevaLinea();
                     imprimirCuadrados();
+                    std::cout << "dibuje texto" << std::endl;
+                    window.draw(imprimir(texto));
+                    texto = "";
+                }else if(eventos.text.unicode >= 97 && eventos.text.unicode <= 122 && texto.size() < 4){
+                    texto += static_cast<char>(eventos.text.unicode);
+                }else if(eventos.text.unicode == 241 && texto.size() < 4){
+                    texto += "'ñ'";
+
                 }
             }
             if (eventos.type == sf::Event::MouseWheelScrolled){
@@ -48,27 +56,24 @@ void Vista::principal(){
                     }
                 }
             }
+
         }
+        std::cout << "imprimi lo dibujado" << std::endl;
+        window.display();
+        std::cout << "limpie lo dibujado" << std::endl;
+        //window.clear(sf::Color::White);
     }
 
 }
 
-sf::Text Vista::imprimir() {
-    texto.setString(frace);
+sf::Text Vista::imprimir(std::string palabra) {
+    texto.setString(palabra);
     texto.setPosition(50.f, 50.f);
     return texto;
 }
 
 void Vista::tamañoLetra(int tamano ){
     texto.setCharacterSize(tamano);
-}
-
-sf::Color generarColorAleatorio() {
-    int r = std::rand() % 256;
-    int g = std::rand() % 256;
-    int b = std::rand() % 256;
-
-    return sf::Color(r, g, b);
 }
 
 void Vista::nuevaLinea(){
@@ -85,9 +90,9 @@ void Vista::nuevaLinea(){
 
 void Vista::imprimirCuadrados(){
     int cont = 1;
-
     int lineasVisibles = 3;
-    window.clear(sf::Color::White);
+
+
 
     if(cuadrados.size()-1 >= lineasVisibles && eventos.text.unicode == '\r'){
         inicioVisible++;
@@ -95,11 +100,10 @@ void Vista::imprimirCuadrados(){
     for (int i = inicioVisible; i < inicioVisible + lineasVisibles && i < cuadrados.size(); ++i) {
         for(int j = 0; j < 4; j++) {
             cuadrados[i][j].setPosition(cuadrados[i][j].getPosition().x, 150.f + 100.f * cont * 1.2f);
+            std::cout << "dibuje cuadros" << std::endl;
             window.draw(cuadrados[i][j]);
         }
         cont++;
     }
-    window.display();
-
 
 }
