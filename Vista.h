@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 class Vista {
-
     std::vector<std::string> palabras;
     sf::RenderWindow window;
     sf::Event eventos;
@@ -17,10 +16,8 @@ public:
     Vista();
     //bucle principal
     void principal();
-    sf::Text imprimir(std::string);
     void nuevaLinea();
-    void tamañoLetra(int);
-    void imprimirCuadrados();
+    void imprimir();
 };
 
 
