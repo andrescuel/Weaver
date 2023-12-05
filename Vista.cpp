@@ -31,13 +31,11 @@ void Vista::principal(){
 
     imprimir();
 
-
     while(window.isOpen()){
         while (window.pollEvent(eventos)) {
             if (eventos.type == sf::Event::Closed) {
                 window.close();
             }
-
 
             if (eventos.type == sf::Event::TextEntered) {
                 escritura();
@@ -61,9 +59,17 @@ void Vista::principal(){
 
 void Vista::escritura(){
     // Al presionar "Enter", agregar una nueva línea
+
     if (eventos.text.unicode == '\r' && palabras[palabras.size()-1].size() >= 4){
+        if(!imprimir()) {
+          texto.setString("entro error");
+          window.draw(texto);
+          prueba = true;
+          return;
+        };
         if(palabras.size() >= 3) inicioVisible++;
         palabras.push_back("");
+        prueba = false;
         nuevaLinea();
         imprimir();
     }else if(eventos.text.unicode >= 97 && eventos.text.unicode <= 122 && palabras[palabras.size()-1].size() < 4){
@@ -98,12 +104,11 @@ void Vista::nuevaLinea(){
     cuadrados.push_back(linea);
 }
 
-void Vista::imprimir(){
+bool Vista::imprimir(){
     int cont = 2;
     int lineasVisibles = 3;
 
     window.clear(sf::Color::White);
-
 
     for (int i = inicioVisible; i < inicioVisible + lineasVisibles && i < cuadrados.size(); i++) {
         for(int j = 0; j < 4; j++) {
@@ -133,6 +138,26 @@ void Vista::imprimir(){
         }
         cont = (cuadrados.size() < 3) ?(cuadrados.size()+2) :(5);
     }
+
+    if(palabras[palabras.size()-1].size() == 4 && eventos.text.unicode == '\r'){
+        if(!prueba){
+            sf::RectangleShape error;
+            sf::Text texError("cambia solo una letra",fuente,20);
+            error.setSize(sf::Vector2f(250,40));
+            error.setFillColor(sf::Color(255, 0, 0));
+            error.setPosition((window.getSize().x - error.getSize().x)/2,window.getSize().y - 60);
+            sf::FloatRect bounds = texError.getLocalBounds();
+            texError.setPosition(error.getPosition().x + (error.getSize().x - bounds.width) / 2,
+                              error.getPosition().y + (error.getSize().y - bounds.height) / 2 - 7);
+
+            window.draw(error);
+            window.draw(texError);
+            window.display();
+            return false;
+        }
+    }
+
     window.display();
+    return true;
 
 }

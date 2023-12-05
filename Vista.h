@@ -2,8 +2,10 @@
 #define WEAVER_VISTA_H
 
 #include <SFML/Graphics.hpp>
+#include "Solucionador.h"
 
 class Vista {
+    bool prueba = true;
     std::vector<std::string> palabrasEstaticas;
     std::vector<std::string> palabras;
     sf::RenderWindow window;
@@ -20,7 +22,7 @@ public:
     void principal();
     void escritura();
     void nuevaLinea();
-    void imprimir();
+    bool imprimir();
 };
 
 
