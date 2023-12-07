@@ -5,6 +5,7 @@
 #include "Solucionador.h"
 
 class Vista {
+    bool prueba = false;
     //encargado de mirar si hay errores en el programa
     bool error;
     //caja donde se imprimira el texto que indique el error existente
@@ -47,6 +48,10 @@ public:
     void imprimirErrores();
     //imprime to do por pantalla
     void imprimir();
+    //cambia el color para indicar cual que caracter es igual al final
+    void cambiarColorCuadro();
+    //cambia el color al borrar las palabras
+    void devolverColor();
 };
 
 #endif //WEAVER_VISTA_H

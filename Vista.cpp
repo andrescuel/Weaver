@@ -7,7 +7,7 @@ Vista::Vista(){
         //si no la encuentra avisa
         std::cout << "no cargo";
     }
-
+    setlocale(LC_ALL, "spanish");
     //le asigna un tamaño, color y fuente al texto que se presenta por pantalla
     texto.setCharacterSize(50);
     texto.setFillColor(sf::Color::Black);
@@ -55,6 +55,7 @@ Vista::Vista(){
     //se le añade los atributos necesarios para el texto de erro
     textoError.setFont(fuente);
     textoError.setCharacterSize(20);
+    error = false;
 }
 
 void Vista::principal(){
@@ -103,6 +104,7 @@ void Vista::escritura(){
     if (eventos.text.unicode == '\r' && palabras[palabras.size()-1].size() >= 4){
         //si el usuario le dio enter y el tamaño de la palabra es el correcto
         //se validad que cumpla las reglas de juego
+
         imprimir();
         if(error) {
           //si no las cumple no lo deja continuar y lo devuelve con un mensaje de error
@@ -113,17 +115,18 @@ void Vista::escritura(){
         //si el numero de palabras execede lo visible por pantalla se controla desde donde se deja ver al usuario
         if(palabras.size() >= 3) inicioVisible++;
         //se añade un nuevo reglon en blanco
+        cambiarColorCuadro();
         palabras.push_back("");
         cuadrados.push_back(linea);
-    }else if(eventos.text.unicode >= 97 && eventos.text.unicode <= 122 && palabras[palabras.size()-1].size() < 4){
+        error = true;
+    }else if(eventos.text.unicode >= 97 && eventos.text.unicode <= 122 && palabras[palabras.size()-1].size() < 4 ||
+                eventos.text.unicode >= 65 && eventos.text.unicode <= 90  && palabras[palabras.size()-1].size() < 4 ||
+                eventos.text.unicode == 241 && palabras[palabras.size()-1].size() < 4 ||
+                eventos.text.unicode == 209 && palabras[palabras.size()-1].size() < 4 ){
         //valida si el usuario toco una letra si es asi combierte el codigo de esa letra en un char y lo guarda en un string
         //solo lo deja introducir caracteres si el tamaño del string es menor a 4
         palabras[palabras.size()-1] += std::toupper(static_cast<char>(eventos.text.unicode));
         //si el usuario no esta mirando donde esta escribiendo se le posicion la vista en la casilla donde se esta realizando la accion
-        if(palabras.size() > 2) inicioVisible = palabras.size()-3;
-    }else if(eventos.text.unicode == 241 && palabras[palabras.size()-1].size() < 4){
-        //se valida si se introdujo la ñ para poder hacer su tratamiento especial y logica igual que el if anterior
-        palabras[palabras.size()-1] += "'ñ'";
         if(palabras.size() > 2) inicioVisible = palabras.size()-3;
     }else if (eventos.key.code == 8){
         //si se oprime la tecla de borrar
@@ -134,12 +137,53 @@ void Vista::escritura(){
             //si el string esta vacio borramos to do un reglon para empezar a modificar el reglon anterior
             palabras.pop_back();
             cuadrados.pop_back();
+            devolverColor();
             //si tenemos mas de 3 reglones en pantalla se modifica desde donde empieza a observar el usuario
             if(inicioVisible != 0) inicioVisible--;
         }
     }
     //se imprimen todos los cambios pertientes
     imprimir();
+}
+
+void Vista::cambiarColorCuadro(){
+    //recorremos toda la cadena de caracteres para verificar si hay algun caracter igual a la palabra final
+   for(int i = 0; i < 4; i++){
+       if(palabras[palabras.size()-1][i] == palabrasEstaticas[1][i]){
+           //si lo hay cambia el color de del cuadro donde esta la letra igual
+           cuadrados[cuadrados.size()-1][i].setFillColor(sf::Color(110, 235, 101));
+           //tambien cambia el color del cuadro donde es igual a la palabra final
+           cuadrosEstaticos[1][i].setFillColor(sf::Color(15, 255, 0));
+       }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
+           //si no es validad si el cuadro esta pintado de verde y si lo esta lo devuelve al color original
+           cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
+       }
+   }
+}
+
+void Vista::devolverColor(){
+    for(int i = 0; i < 4; i++){
+        //recorre los cuadrados y valida si aguno esta de color verda
+        if(cuadrados[cuadrados.size()-1][i].getFillColor() == sf::Color(110, 235, 101)){
+            //si lo esta lo cambia a color trasparente para dejarlo como es originalmente
+            cuadrados[cuadrados.size()-1][i].setFillColor(sf::Color::Transparent);
+        }
+        if(palabras.size() != 1) {
+            //valida si palabras tiene mas de dos palabras dentro
+            if(palabras[palabras.size()-2][i] == palabrasEstaticas[1][i])
+            {
+                //si tiene mas de dos valida la antepenultima sigue teniendo coincidencias con la palabra final
+                //y le cambia el color a los cuadros de la palabra final
+                cuadrosEstaticos[1][i].setFillColor(sf::Color(15, 255, 0));
+            }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
+                // si la letra no es igual valida si esta de color verde y si lo esta lo cambia a su color original
+                cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
+            }
+        }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
+            //por ultimo palabras solo tiene una palabra o no tiene palabras cambia el color de los cuadros de la palbra final que esten en verde a su color original
+            cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
+        }
+    }
 }
 
 
@@ -199,25 +243,40 @@ void Vista::imprimirCuadradosEstaticos(){
 
 void Vista::imprimirErrores(){
 
-        if(error){
-            //si se ha cambiado mas de una palabra salta un error
-            //se modifica el tamaño de la caja para ajustarse mejor al texto emergente
-            cajaError.setSize(sf::Vector2f(250,40));
-            //se le calcula la pocision con ayuda del tamaño de la ventana y asi poder centrarlo de manera mas precisa
-            cajaError.setPosition((window.getSize().x - cajaError.getSize().x)/2,window.getSize().y - 60);
-            //se añade el texto del error para indicar al usuario que esta realizando mal
-            textoError.setString("Cambia solo una letra");
-            //se obtiene el tamaño que ocupa por pantalla el texto para asi poder centrarlo mejor en el cuadro anteriormente echo
-            sf::FloatRect bounds = textoError.getLocalBounds();
-            textoError.setPosition(cajaError.getPosition().x + (cajaError.getSize().x - bounds.width) / 2,
-                                 cajaError.getPosition().y + (cajaError.getSize().y - bounds.height) / 2 - 7);
+    if(error /*funcion que me diga si se cambio mas de una letra*/){
+        //si se ha cambiado mas de una palabra salta un error
+        //se modifica el tamaño de la caja para ajustarse mejor al texto emergente
+        cajaError.setSize(sf::Vector2f(250,40));
+        //se le calcula la pocision con ayuda del tamaño de la ventana y asi poder centrarlo de manera mas precisa
+        cajaError.setPosition((window.getSize().x - cajaError.getSize().x)/2,window.getSize().y - 60);
+        //se añade el texto del error para indicar al usuario que esta realizando mal
+        textoError.setString("Cambia solo una letra");
+        //se obtiene el tamaño que ocupa por pantalla el texto para asi poder centrarlo mejor en el cuadro anteriormente echo
+        sf::FloatRect bounds = textoError.getLocalBounds();
+        textoError.setPosition(cajaError.getPosition().x + (cajaError.getSize().x - bounds.width) / 2,
+                               cajaError.getPosition().y + (cajaError.getSize().y - bounds.height) / 2 - 7);
+        //se indica que existe un error para no permitir el funcionamiento del programa hasta que se solucione
+        error = true;
+    }else if(prueba /*funcion que me diga si la palabra existe*/) {
+        //se añade el texto del error
+        textoError.setString("Por favor ingrese una palabra existente");
+        //se obtiene la caja que delimita el texto
+        sf::FloatRect bounds = textoError.getLocalBounds();
+        //se utiliza esta caja para darle el tamaño a la caja de error
+        cajaError.setSize(sf::Vector2f(bounds.width + 30,40));
+        //se le calcula la pocision con ayuda del tamaño de la ventana y asi poder centrarlo de manera mas precisa
+        cajaError.setPosition((window.getSize().x - cajaError.getSize().x)/2,window.getSize().y - 60);
+        //se posiciona el texto en la mitdad del cuadrado
+        textoError.setPosition(cajaError.getPosition().x + (cajaError.getSize().x - bounds.width) / 2,
+                               cajaError.getPosition().y + (cajaError.getSize().y - bounds.height) / 2 - 7);
 
-            //Se dibuja tanto la caja como el texto en la pantalla
-            window.draw(cajaError);
-            window.draw(textoError);
-            //se indica que existe un error para no permitir el funcionamiento del programa hasta que se solucione
-            error = true;
-        }
+        error = true;
+    }
+    if(error){
+        //Se dibuja tanto la caja como el texto en la pantalla si hay errores
+        window.draw(cajaError);
+        window.draw(textoError);
+    }
 }
 
 void Vista::imprimir(){
