@@ -6,3 +6,7 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# Ignorar todos los archivos de cmake-build-debug (basura, basura...)
+cmake-build-debug/*
+# Menos el banco de palabras
+!cmake-build-debug/palabras.json

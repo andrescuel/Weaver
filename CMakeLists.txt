@@ -10,6 +10,6 @@ add_executable(Weaver main.cpp BancoPalabras.cpp BancoPalabras.h
         Solucionador.cpp
         Solucionador.h
         Vista.cpp
-        Vista.h)
+        Vista.h List.cpp List.h Graph.cpp Graph.h)
 
 target_link_libraries(Weaver sfml-graphics sfml-window sfml-system)
