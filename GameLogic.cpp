@@ -19,20 +19,47 @@ vector<string> GameLogic::encontrarCaminoMinimoPalabras(const string &p1, const 
     return solucionador.encontrarCaminoMinimoPalabras(p1,p2);
 }
 
-vector<string> GameLogic::mostarPalabrasInicioYFin() {
+vector<string> GameLogic::mostarPalabrasInicioYFin(int& dificultad) {
     vector<string> palabrasInicioFin;
-    string palabraInicio, palabraFin;
+    vector<string> visitados;
+    Vertex<string>* palabraInicio;
+    Vertex<string>* palabraFin;
+    bool fueVisitado = false;
 
     std::random_device rd;   // Obtener una semilla aleatoria del dispositivo
     std::mt19937 gen(rd());  // generador
-    std::uniform_int_distribution<> distribucion(1, solucionador.getGrafoPalabras().vertexList.size() - 1); // rango
+    std::uniform_int_distribution<> distribucion(4, solucionador.getGrafoPalabras().vertexList.size() - 2); // rango
     int randomNum = distribucion(gen);
 
-    palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum)->data;
-    palabrasInicioFin.push_back(palabraInicio);
-    /*for (int i = 0; i < randomNum; i++){
+    palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum);
+    palabraFin = palabraInicio;
 
-    }*/
+    // facil dificultad = 1
+    // medio dificultad = 2
+    // dificil dificultad = 3
+    for (int i = 0; i < pow(randomNum,dificultad); i++){
+        if (palabraFin->connectedTo.size() > 0){
+            for (const string& v : visitados){
+                if (v == palabraFin->data){
+                    fueVisitado = true;
+                    break;
+                }
+            }
+            if (!fueVisitado) {
+                visitados.push_back(palabraFin->data);
+                palabraFin = palabraFin->connectedTo.get(0)->to;
+            }
+        }
+        else if (palabraFin->connectedTo.size() < 1 && i < pow(randomNum,dificultad) / 2){
+            palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum + 1);
+            palabraFin = palabraInicio;
+        }
+        else {
+            break;
+        }
+    }
+    palabrasInicioFin.push_back(palabraInicio->data);
+    palabrasInicioFin.push_back(palabraFin->data);
 
     return palabrasInicioFin;
 }
