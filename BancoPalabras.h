@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <regex>
+#include <fstream>
 
 using namespace std;
 
@@ -13,10 +14,15 @@ private:
 
 public:
     BancoPalabras(const vector<string>& palabras);
+    BancoPalabras(const string& pathPalabras);
 
     bool esPalabraValida(const string& palabra);
-    vector<string> obtenerPalabrasRegex(const string& regex_str);
-    vector<string> obtenerPalabras();
+    vector<string> getPalabrasRegex(const string& regex_str);
+    vector<string> getPalabras();
+
+    static bool difiereUnaLetra(const string& palabra1, const string& palabra2);
+    static bool esArchivoVacio(fstream& archivo);
+    static bool esArchivoVacio(ifstream& archivo);
 };
 
 #endif //WEAVER_BANCOPALABRAS_H

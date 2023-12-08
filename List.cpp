@@ -4,18 +4,17 @@
 
 #include "List.h"
 
-#include "List.h"
 template<typename T>
-List<T>:: List(): begin(0), count(0){
+List<T>:: List(): head(nullptr), count(0){
 }
 
 template<typename T>
 List<T>:: ~List(){
-    Node<T>* del = begin;
-    while (begin){
-        begin = begin->next;
+    Node<T>* del = head;
+    while (head){
+        head = head->next;
         delete del;
-        del = begin;
+        del = head;
     }
 }
 
@@ -35,10 +34,10 @@ void List<T>::insert(int pos, const T &value) {
     }
     Node<T>* add = makeNode(value);
     if(pos == 0){
-        add->next = begin;
-        begin = add;
+        add->next = head;
+        head = add;
     }else{
-        Node<T>* cur = begin;
+        Node<T>* cur = head;
         for(int i=0; i<pos-1; i++){
             cur = cur->next;
         }
@@ -55,11 +54,11 @@ void List<T>::erase(int pos) {
         return;
     }
     if(pos == 0){
-        Node<T>* del = begin;
-        begin = begin->next;
+        Node<T>* del = head;
+        head = head->next;
         delete del;
     }else{
-        Node<T>* cur = begin;
+        Node<T>* cur = head;
         for(int i=0; i<pos-1; i++){
             cur = cur->next;
         }
@@ -77,9 +76,9 @@ T& List<T>::get(int pos) const{
         assert(false);
     }
     if(pos == 0){
-        return begin->data;
+        return head->data;
     }else{
-        Node<T>* cur = begin;
+        Node<T>* cur = head;
         for(int i=0; i<pos; i++){
             cur = cur->next;
         }
@@ -93,7 +92,7 @@ void List<T>::print() const{
         cout << "List is empty." << endl;
         return;
     }
-    Node<T>* cur = begin;
+    Node<T>* cur = head;
     while(cur){
         cout << cur->data;
         cur = cur->next;
@@ -107,9 +106,33 @@ int List<T>::size() const {
 
 template<typename T>
 Node<T> *List<T>::search(const T &value) {
-    Node<T>* cur = begin;
+    Node<T>* cur = head;
     while(cur){
-        if(cur == value) return cur;
+        if(cur->data == value) return cur;
         cur = cur->next;
     }
+    return nullptr;
 }
+
+template<typename T>
+typename List<T>::NodeIterator List<T>::begin() const {
+    return NodeIterator(begin);
+}
+
+template<typename T>
+typename List<T>::NodeIterator List<T>::end() const {
+    return NodeIterator(nullptr);
+}
+
+template<typename T>
+typename List<T>::ConstNodeIterator List<T>::cbegin() const {
+    return ConstNodeIterator(begin);
+}
+
+template<typename T>
+typename List<T>::ConstNodeIterator List<T>::cend() const {
+    return ConstNodeIterator(nullptr);
+}
+
+template class Node<string>;
+template class List<string>;

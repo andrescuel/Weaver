@@ -4,12 +4,23 @@ BancoPalabras::BancoPalabras(const vector<string>& palabras) : palabras(palabras
 
 }
 
+BancoPalabras::BancoPalabras(const std::string &pathPalabras) {
+    ifstream archivoPalabras(pathPalabras);
+
+    if(archivoPalabras.is_open() && !BancoPalabras::esArchivoVacio(archivoPalabras)) {
+        std::string line;
+        while (std::getline(archivoPalabras, line)) {
+            palabras.push_back(line);
+        }
+    }
+}
+
 bool BancoPalabras::esPalabraValida(const string& palabra) {
     // Revisar si está dentro del vector de palabras
     return find(palabras.begin(), palabras.end(), palabra) != palabras.end();
 }
 
-vector<string> BancoPalabras::obtenerPalabrasRegex(const string& regex_str) {
+vector<string> BancoPalabras::getPalabrasRegex(const string& regex_str) {
     regex patron(regex_str);
     vector<string> palabrasEncontradas;
 
@@ -23,6 +34,25 @@ vector<string> BancoPalabras::obtenerPalabrasRegex(const string& regex_str) {
     return palabrasEncontradas;
 }
 
-vector<string> BancoPalabras::obtenerPalabras() {
+vector<string> BancoPalabras::getPalabras() {
     return palabras;
+}
+
+bool BancoPalabras::difiereUnaLetra(const string &palabra1, const string &palabra2) {
+    int cuentaDif = 0;
+    for (size_t i = 0; i < palabra1.length(); i++) {
+        if (palabra1[i] != palabra2[i]){
+            if (++cuentaDif > 1)
+                return false;
+        }
+    }
+    return true;
+}
+
+bool BancoPalabras::esArchivoVacio(fstream& archivo) {
+    return archivo.peek() == ifstream::traits_type::eof();
+}
+
+bool BancoPalabras::esArchivoVacio(ifstream& archivo) {
+    return archivo.peek() == ifstream::traits_type::eof();
 }

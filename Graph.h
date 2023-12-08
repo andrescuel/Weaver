@@ -6,6 +6,10 @@
 #define WEAVER_GRAPH_H
 
 #include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <limits>
 #include "List.cpp"
 using namespace std;
 
@@ -49,13 +53,16 @@ public:
 
 template<class T>
 class Graph {
+public:
     int count;
     List<Vertex<T>*> vertexList;
     Graph();
     ~Graph();
     Vertex<T>* addVertex(const T& value);
-    Vertex<T>* getVertex(const T& value);
+    Vertex<T>* getVertex(const T& value) const;
     void addEdge(const T& from, const T& to, int weight=0);
+
+    vector<T> dijkstraShortestPath(const T& start, const T& end) const;
 };
 
 
