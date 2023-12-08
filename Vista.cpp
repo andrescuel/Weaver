@@ -99,7 +99,10 @@ void Vista::principal(){
     botones[0].cajaColision = botones[0].caja.getGlobalBounds();
     //imprime las palabras iniciales y el primer reglon de escritura
     imprimir();
-
+    std::cout << "Tamaño de cuadrados: " << cuadrados.size() << std::endl;
+    std::cout << "Tamaño de palabrasEstaticas: " << palabrasEstaticas.size() << std::endl;
+    std::cout << "Tamaño de cuadrosEstaticos: " << cuadrosEstaticos.size() << std::endl;
+    std::cout << "Tamaño de palabras: " << palabras.size() << std::endl;
     //Se ejecuta mientras no se halla ganado el juego
     while(!winer){
         while (window.pollEvent(eventos)) {
@@ -558,14 +561,20 @@ void Vista::menus(){
                 }
             }
             else if(guardar){
-                std::cout << "se guardo partida" << std::endl;
+                cout << "guarde partida";
+                palabras.insert(palabras.begin(),palabrasEstaticas[0]);
+                palabras.push_back(palabrasEstaticas[1]);
+                logica.guardarPartida(palabras, "../archivos/hola1.txt");
+                palabras.erase(palabras.begin());
+                palabras.pop_back();
                 guardar = false;
             }
             else if(cargar){
-                std::cout << "se guardo partida" << std::endl;
                 botones.clear();
                 pausado = false;
                 cargar = false;
+                reseteo();
+                palabras = logica.cargarPartida("../archivos/hola1.txt");
                 principal();
             }
         }
