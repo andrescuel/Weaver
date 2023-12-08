@@ -4,6 +4,9 @@
 
 #include "GameLogic.h"
 
+
+GameLogic::GameLogic() : solucionador("../archivos/palabras.txt","Bucket"){}
+
 bool GameLogic::esPalabraValida(const string &palabra) {
     return solucionador.bancoPalabras.esPalabraValida(palabra);
 }
@@ -33,4 +36,5 @@ vector<string> GameLogic::mostarPalabrasInicioYFin() {
 
     return palabrasInicioFin;
 }
+
 

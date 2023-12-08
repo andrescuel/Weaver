@@ -10,6 +10,7 @@
 class GameLogic {
     Solucionador solucionador;
 public:
+    GameLogic();
     bool esPalabraValida(const string& palabra);
     bool difiereUnaLetra(const string& palabra1, const string& palabra2);
     vector<string> encontrarCaminoMinimoPalabras(const string& p1, const string& p2);
