@@ -25,7 +25,7 @@ vector<string> GameLogic::mostarPalabrasInicioYFin() {
 
     std::random_device rd;   // Obtener una semilla aleatoria del dispositivo
     std::mt19937 gen(rd());  // generador
-    std::uniform_int_distribution<> distribucion(0, solucionador.getGrafoPalabras().count - 1); // rango
+    std::uniform_int_distribution<> distribucion(0, solucionador.getGrafoPalabras().vertexList.size() - 1); // rango
     int randomNum = distribucion(gen);
 
     palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum)->data;
