@@ -25,7 +25,7 @@ vector<string> GameLogic::mostarPalabrasInicioYFin() {
 
     std::random_device rd;   // Obtener una semilla aleatoria del dispositivo
     std::mt19937 gen(rd());  // generador
-    std::uniform_int_distribution<> distribucion(0, solucionador.getGrafoPalabras().vertexList.size() - 1); // rango
+    std::uniform_int_distribution<> distribucion(1, solucionador.getGrafoPalabras().vertexList.size() - 1); // rango
     int randomNum = distribucion(gen);
 
     palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum)->data;
@@ -35,6 +35,31 @@ vector<string> GameLogic::mostarPalabrasInicioYFin() {
     }*/
 
     return palabrasInicioFin;
+}
+
+void GameLogic::guardarPartida(const vector<string> palabras, const string& nombreArchivo) {
+    fstream archivoPartida(nombreArchivo);
+    if(archivoPartida.is_open()) {
+        if (!BancoPalabras::esArchivoVacio(archivoPartida)){
+            ofstream archivoPartidaBorrar(nombreArchivo, std::ios::trunc);
+            if(archivoPartidaBorrar.is_open()) archivoPartidaBorrar.close();
+        }
+        for (const string& palabra : palabras) {
+            archivoPartida << palabra << endl;
+        }
+    }
+}
+
+vector<string> GameLogic::cargarPartida(const string& nombreArchivo) {
+    vector<string> palabrasGuardadas;
+    ifstream archivoPartida(nombreArchivo);
+    if(archivoPartida.is_open() && !BancoPalabras::esArchivoVacio(archivoPartida)) {
+        string line;
+        while (std::getline(archivoPartida, line)) {
+            palabrasGuardadas.push_back(line);
+        }
+    }
+    return palabrasGuardadas;
 }
 
 
