@@ -115,23 +115,23 @@ Node<T> *List<T>::search(const T &value) {
 }
 
 template<typename T>
-typename List<T>::NodeIterator List<T>::begin() const {
-    return NodeIterator(begin);
+typename List<T>::Iterator List<T>::begin() const {
+    return Iterator(head);
 }
 
 template<typename T>
-typename List<T>::NodeIterator List<T>::end() const {
-    return NodeIterator(nullptr);
+typename List<T>::Iterator List<T>::end() const {
+    return Iterator(nullptr);
 }
 
 template<typename T>
-typename List<T>::ConstNodeIterator List<T>::cbegin() const {
-    return ConstNodeIterator(begin);
+typename List<T>::ConstIterator List<T>::cbegin() const {
+    return ConstIterator(head);
 }
 
 template<typename T>
-typename List<T>::ConstNodeIterator List<T>::cend() const {
-    return ConstNodeIterator(nullptr);
+typename List<T>::ConstIterator List<T>::cend() const {
+    return ConstIterator(nullptr);
 }
 
 template class Node<string>;
