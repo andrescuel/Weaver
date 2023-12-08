@@ -25,7 +25,7 @@ Vista::Vista(){
         //si no la encuentra avisa
         std::cout << "no cargo";
     }
-    if (!pausa.loadFromFile("pausa.png")) {
+    if (!pausa.loadFromFile("../archivos/pausa.png")) {
         // Manejar el error si no se puede cargar la imagen
         std::cout << "no cargo";
     }
@@ -108,7 +108,6 @@ void Vista::principal(){
                 return;
             }
             if(colisionConBoton()){
-                imprimir();
                 if(click() == 0){
                     pausado = true;
                     botones.clear();
@@ -172,10 +171,10 @@ void Vista::escritura(){
             cuadrados.push_back(linea);
         }
 
-    }else if(eventos.text.unicode >= 97 && eventos.text.unicode <= 122 && palabras[palabras.size()-1].size() < 4 ||
-                eventos.text.unicode >= 65 && eventos.text.unicode <= 90  && palabras[palabras.size()-1].size() < 4 ||
-                eventos.text.unicode == 241 && palabras[palabras.size()-1].size() < 4 ||
-                eventos.text.unicode == 209 && palabras[palabras.size()-1].size() < 4 ){
+    }else if((eventos.text.unicode >= 97 && eventos.text.unicode <= 122 && palabras[palabras.size()-1].size() < 4) ||
+            (eventos.text.unicode >= 65 && eventos.text.unicode <= 90  && palabras[palabras.size()-1].size() < 4) ||
+            (eventos.text.unicode == 241 && palabras[palabras.size()-1].size() < 4) ||
+            (eventos.text.unicode == 209 && palabras[palabras.size()-1].size() < 4) ){
         //valida si el usuario toco una letra si es asi combierte el codigo de esa letra en un char y lo guarda en un string
         //solo lo deja introducir caracteres si el tamaño del string es menor a 4
         palabras[palabras.size()-1] += std::toupper(static_cast<char>(eventos.text.unicode));
