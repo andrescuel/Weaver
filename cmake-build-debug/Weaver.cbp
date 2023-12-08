@@ -90,6 +90,18 @@
 		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/BancoPalabras.h">
 			<Option target="Weaver"/>
 		</Unit>
+		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/Graph.cpp">
+			<Option target="Weaver"/>
+		</Unit>
+		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/Graph.h">
+			<Option target="Weaver"/>
+		</Unit>
+		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/List.cpp">
+			<Option target="Weaver"/>
+		</Unit>
+		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/List.h">
+			<Option target="Weaver"/>
+		</Unit>
 		<Unit filename="C:/Users/rubio/Downloads/ingenieria de sistemas 3/Weaver/Solucionador.cpp">
 			<Option target="Weaver"/>
 		</Unit>

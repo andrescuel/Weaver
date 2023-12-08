@@ -4,8 +4,17 @@
 #include <SFML/Graphics.hpp>
 #include "Solucionador.h"
 
+struct Boton {
+    //guarda la caja de los botones que se van a crear
+    sf::RectangleShape caja;
+    //guarda la caja de colicion por asi decirlo del texto y luego de la caja para poder
+    //aprovechar una funcion que me permita validar si hay algo sobre la caja
+    sf::FloatRect cajaColision;
+    //contructor que me permite crear Botonones con el tamaño correspondiente y sus caracteristicas principales
+    Boton(sf::FloatRect);
+};
+
 class Vista {
-    bool prueba = false;
     //encargado de mirar si hay errores en el programa
     bool error;
     //caja donde se imprimira el texto que indique el error existente
@@ -24,19 +33,27 @@ class Vista {
     sf::Font fuente;
     //encargado de guardar el texto que aparecera por pantalla
     sf::Text texto;
-    //encargada guardar el error que se mostrara por pantalla
-    sf::Text textoError;
+    //encargada de controlar la letra de los errores y menus
+    sf::Text textoSecundario;
     //guarada los cuadrados que se mostraran por pantalla
     std::vector<std::vector<sf::RectangleShape>> cuadrados;
     //guarda los cuadros que le pertenecen a las palabra inicial y final
     std::vector<std::vector<sf::RectangleShape>> cuadrosEstaticos;
     //desde donde se le permitara ver al usuario de todos los vectores creados anteriormente
     int inicioVisible;
+    //valida si el usuario ya gano
+    bool winer;
+    //vector que guarda las cajas de los botones
+    std::vector<Boton> botones;
+    //encargado de guardar la posicon del mouse en un momento determinado para su correcto tratamiento
+    sf::Vector2i mouse;
 
 public:
     //encargado de inicializar todas las respectivas variables
     Vista();
-    //bucle principal
+    //para poder reiniciar la variables cuando se desea iniciar un juevo juego
+    void reseteo();
+    //bucle donde se llama lo encargado de interactuar con el usuario mientras este juega
     void principal();
     //encargada de tomar las letres que el usuario ingrese y guardarlas para su correcto procesamiento
     void escritura();
@@ -52,6 +69,16 @@ public:
     void cambiarColorCuadro();
     //cambia el color al borrar las palabras
     void devolverColor();
+    //Menu para cuando se gana
+    void ganador();
+    //Menu para empezar el juego
+    void inicio();
+    //donde se llaman todos los menus y se controla la logica de inicio del juego
+    void menus();
+    //controla el cambio de color de los botones cuando el mouse esta sobre este
+    bool colisionConBoton();
+    //controla cuando el usuario hace click sobre los botones y devulve sobre que boton se hizo click
+    int click();
 };
 
 #endif //WEAVER_VISTA_H

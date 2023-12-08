@@ -152,6 +152,54 @@ BancoPalabras.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/BancoPalabras.cpp.s
 .PHONY : BancoPalabras.cpp.s
 
+Graph.obj: Graph.cpp.obj
+.PHONY : Graph.obj
+
+# target to build an object file
+Graph.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/Graph.cpp.obj
+.PHONY : Graph.cpp.obj
+
+Graph.i: Graph.cpp.i
+.PHONY : Graph.i
+
+# target to preprocess a source file
+Graph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/Graph.cpp.i
+.PHONY : Graph.cpp.i
+
+Graph.s: Graph.cpp.s
+.PHONY : Graph.s
+
+# target to generate assembly for a file
+Graph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/Graph.cpp.s
+.PHONY : Graph.cpp.s
+
+List.obj: List.cpp.obj
+.PHONY : List.obj
+
+# target to build an object file
+List.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/List.cpp.obj
+.PHONY : List.cpp.obj
+
+List.i: List.cpp.i
+.PHONY : List.i
+
+# target to preprocess a source file
+List.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/List.cpp.i
+.PHONY : List.cpp.i
+
+List.s: List.cpp.s
+.PHONY : List.s
+
+# target to generate assembly for a file
+List.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Weaver.dir\build.make CMakeFiles/Weaver.dir/List.cpp.s
+.PHONY : List.cpp.s
+
 Solucionador.obj: Solucionador.cpp.obj
 .PHONY : Solucionador.obj
 
@@ -236,6 +284,12 @@ help:
 	@echo ... BancoPalabras.obj
 	@echo ... BancoPalabras.i
 	@echo ... BancoPalabras.s
+	@echo ... Graph.obj
+	@echo ... Graph.i
+	@echo ... Graph.s
+	@echo ... List.obj
+	@echo ... List.i
+	@echo ... List.s
 	@echo ... Solucionador.obj
 	@echo ... Solucionador.i
 	@echo ... Solucionador.s

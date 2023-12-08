@@ -1,17 +1,49 @@
 #include "Vista.h"
 #include <iostream>
 
+Boton::Boton(sf::FloatRect cajaTexto){
+    //acomoda el tamaño de la caja con el tamaño de la letra para que esta despues se pueda comodar de mejor manera
+    caja.setSize(sf::Vector2f(cajaTexto.width+30.f,cajaTexto.height + 30.f));
+    //se le pone un color trasparente por defecto para poder interactuar con el
+    caja.setFillColor(sf::Color::Transparent);
+    //se le agraga color a el contorno del cuadro
+    caja.setOutlineColor(sf::Color(196, 196, 196));
+    //se le asigna un grosor al contorno del cuadro
+    caja.setOutlineThickness(2.f);
+}
+
 Vista::Vista(){
+    //se utiliza para establecer la configuración regional o localización en un programa y que asi funcione la ñ
+    setlocale(LC_ALL, "spanish");
     //ingresa el tipo de la fuete
     if(!fuente.loadFromFile("C:/Windows/Fonts/COOPBL.TTF")){
         //si no la encuentra avisa
         std::cout << "no cargo";
     }
-    setlocale(LC_ALL, "spanish");
     //le asigna un tamaño, color y fuente al texto que se presenta por pantalla
-    texto.setCharacterSize(50);
     texto.setFillColor(sf::Color::Black);
     texto.setFont(fuente);
+    texto.setCharacterSize(50);
+    //se le añade los atributos necesarios a los textos secundarios
+    textoSecundario.setFont(fuente);
+    textoSecundario.setCharacterSize(20);
+    //se ponen las variables principales sin con los requisitos necesarios para empezar el juego
+    reseteo();
+    //no hay errores
+    error = false;
+    //no hay ganadores
+    winer = false;
+    //inicializa el color que debe tener la caja de error
+    cajaError.setFillColor(sf::Color(255, 0, 0));
+}
+
+void Vista::reseteo(){
+    //borra todos los vectores que se han creado para empezar un juego con to do limpio
+    palabras.clear();
+    cuadrados.clear();
+    palabrasEstaticas.clear();
+    cuadrosEstaticos.clear();
+    linea.clear();
 
     //al vector lineas le asigana 4 espacios puesto que son los cuadrados que
     //existen por linea
@@ -27,8 +59,7 @@ Vista::Vista(){
         //añade una liena al vector cuadrados estaticos
         cuadrosEstaticos.push_back(linea);
     }
-
-   //inicializa la linea visible en 0 puesto que desde esta se va a empezar a visualizar
+    //inicializa la linea visible en 0 puesto que desde esta se va a empezar a visualizar
     inicioVisible = 0;
 
     //añade un espacio vacio a las palabras para facilitar su manupulacion
@@ -37,7 +68,6 @@ Vista::Vista(){
     //añade las palabras inicial y final que se va a tener durante el juego
     palabrasEstaticas.push_back("LIMA");
     palabrasEstaticas.push_back("LOMO");
-
 
     for(int i = 0; i < 4; i++) {
         //modidica el color, los bordes y los bordes de los cuadrados añadir una linea nueva cada
@@ -48,37 +78,26 @@ Vista::Vista(){
     }
     //añade la primer liena a cuadrados para que el usuario mire donde esta escribiendo
     cuadrados.push_back(linea);
-
-    //inicializa el color que debe tener la caja de error
-    cajaError.setFillColor(sf::Color(255, 0, 0));
-
-    //se le añade los atributos necesarios para el texto de erro
-    textoError.setFont(fuente);
-    textoError.setCharacterSize(20);
-    error = false;
 }
 
 void Vista::principal(){
 
-    //asigna un tamaño a la ventana
-    window.create(sf::VideoMode(600,700), "SFML Window", sf::Style::Close);
-
     //imprime las palabras iniciales y el primer reglon de escritura
     imprimir();
 
-    while(window.isOpen()){
+    //Se ejecuta mientras no se halla ganado el juego
+    while(!winer){
         while (window.pollEvent(eventos)) {
             //si se toca la x de la pantalla se cierra
             if (eventos.type == sf::Event::Closed) {
                 window.close();
             }
-
             if (eventos.type == sf::Event::TextEntered) {
                 //si se toca alguna tecla se llama a la funcion escritura encargadad de guardar
                 //lo escrito por el usuario y a si poder manipular esta informacion
                 escritura();
             }
-            if (eventos.type == sf::Event::MouseWheelScrolled){
+            if (eventos.type == sf::Event::MouseWheelScrolled) {
                 if (eventos.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel) {
                     //verifica si se movio la rueda del mouse para poder hacer scroll
                     if (eventos.mouseWheelScroll.delta > 0 && inicioVisible > 0 && cuadrados.size() > 2) {
@@ -87,8 +106,8 @@ void Vista::principal(){
                         inicioVisible--;
                         //imprime este nuevo orden de lineas
                         imprimir();
-                    }
-                    else if (eventos.mouseWheelScroll.delta < 0 && inicioVisible < cuadrados.size() - 3 && cuadrados.size() > 2) {
+                    } else if (eventos.mouseWheelScroll.delta < 0 && inicioVisible < cuadrados.size() - 3 &&
+                    cuadrados.size() > 2) {
                         //hace lo mismo que el anterior if
                         inicioVisible++;
                         imprimir();
@@ -101,7 +120,7 @@ void Vista::principal(){
 
 void Vista::escritura(){
 
-    if (eventos.text.unicode == '\r' && palabras[palabras.size()-1].size() >= 4){
+    if (eventos.text.unicode == '\r' && palabras[palabras.size()-1].size() >= 4 && !winer){
         //si el usuario le dio enter y el tamaño de la palabra es el correcto
         //se validad que cumpla las reglas de juego
 
@@ -113,12 +132,23 @@ void Vista::escritura(){
           return;
         };
         //si el numero de palabras execede lo visible por pantalla se controla desde donde se deja ver al usuario
-        if(palabras.size() >= 3) inicioVisible++;
+
         //se añade un nuevo reglon en blanco
         cambiarColorCuadro();
-        palabras.push_back("");
-        cuadrados.push_back(linea);
-        error = true;
+        if(winer){
+            //si el usuario gana se borra lo que creado para asi estar listos por si quiere volver a jugar
+            reseteo();
+            //llama al menu de ganador
+            ganador();
+            //sale de la funcion puesto que no es necesario que se repita mas despues de conseguir un ganador
+            return;
+        }else {
+            //si no hay ganador se continua con la logica de añadir una nueva fila
+            if (palabras.size() >= 3) inicioVisible++;
+            palabras.push_back("");
+            cuadrados.push_back(linea);
+        }
+
     }else if(eventos.text.unicode >= 97 && eventos.text.unicode <= 122 && palabras[palabras.size()-1].size() < 4 ||
                 eventos.text.unicode >= 65 && eventos.text.unicode <= 90  && palabras[palabras.size()-1].size() < 4 ||
                 eventos.text.unicode == 241 && palabras[palabras.size()-1].size() < 4 ||
@@ -128,7 +158,7 @@ void Vista::escritura(){
         palabras[palabras.size()-1] += std::toupper(static_cast<char>(eventos.text.unicode));
         //si el usuario no esta mirando donde esta escribiendo se le posicion la vista en la casilla donde se esta realizando la accion
         if(palabras.size() > 2) inicioVisible = palabras.size()-3;
-    }else if (eventos.key.code == 8){
+    }else if (eventos.key.code == 8 && !winer){
         //si se oprime la tecla de borrar
         if (!palabras[palabras.size()-1].empty()) {
             //se valida que el string no este vacio y se borra el ultimo caracter de este
@@ -137,6 +167,7 @@ void Vista::escritura(){
             //si el string esta vacio borramos to do un reglon para empezar a modificar el reglon anterior
             palabras.pop_back();
             cuadrados.pop_back();
+            //y cambiamos el color de los cuadros de esa linea y de los cuadros de la palabra final
             devolverColor();
             //si tenemos mas de 3 reglones en pantalla se modifica desde donde empieza a observar el usuario
             if(inicioVisible != 0) inicioVisible--;
@@ -144,48 +175,8 @@ void Vista::escritura(){
     }
     //se imprimen todos los cambios pertientes
     imprimir();
-}
 
-void Vista::cambiarColorCuadro(){
-    //recorremos toda la cadena de caracteres para verificar si hay algun caracter igual a la palabra final
-   for(int i = 0; i < 4; i++){
-       if(palabras[palabras.size()-1][i] == palabrasEstaticas[1][i]){
-           //si lo hay cambia el color de del cuadro donde esta la letra igual
-           cuadrados[cuadrados.size()-1][i].setFillColor(sf::Color(110, 235, 101));
-           //tambien cambia el color del cuadro donde es igual a la palabra final
-           cuadrosEstaticos[1][i].setFillColor(sf::Color(15, 255, 0));
-       }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
-           //si no es validad si el cuadro esta pintado de verde y si lo esta lo devuelve al color original
-           cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
-       }
-   }
 }
-
-void Vista::devolverColor(){
-    for(int i = 0; i < 4; i++){
-        //recorre los cuadrados y valida si aguno esta de color verda
-        if(cuadrados[cuadrados.size()-1][i].getFillColor() == sf::Color(110, 235, 101)){
-            //si lo esta lo cambia a color trasparente para dejarlo como es originalmente
-            cuadrados[cuadrados.size()-1][i].setFillColor(sf::Color::Transparent);
-        }
-        if(palabras.size() != 1) {
-            //valida si palabras tiene mas de dos palabras dentro
-            if(palabras[palabras.size()-2][i] == palabrasEstaticas[1][i])
-            {
-                //si tiene mas de dos valida la antepenultima sigue teniendo coincidencias con la palabra final
-                //y le cambia el color a los cuadros de la palabra final
-                cuadrosEstaticos[1][i].setFillColor(sf::Color(15, 255, 0));
-            }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
-                // si la letra no es igual valida si esta de color verde y si lo esta lo cambia a su color original
-                cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
-            }
-        }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
-            //por ultimo palabras solo tiene una palabra o no tiene palabras cambia el color de los cuadros de la palbra final que esten en verde a su color original
-            cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
-        }
-    }
-}
-
 
 void Vista::imprimirCuadrado(){
     //inicializa un contador y la canitadad de lineas que se van a imprimir
@@ -250,32 +241,32 @@ void Vista::imprimirErrores(){
         //se le calcula la pocision con ayuda del tamaño de la ventana y asi poder centrarlo de manera mas precisa
         cajaError.setPosition((window.getSize().x - cajaError.getSize().x)/2,window.getSize().y - 60);
         //se añade el texto del error para indicar al usuario que esta realizando mal
-        textoError.setString("Cambia solo una letra");
+        textoSecundario.setString("Cambia solo una letra");
         //se obtiene el tamaño que ocupa por pantalla el texto para asi poder centrarlo mejor en el cuadro anteriormente echo
-        sf::FloatRect bounds = textoError.getLocalBounds();
-        textoError.setPosition(cajaError.getPosition().x + (cajaError.getSize().x - bounds.width) / 2,
+        sf::FloatRect bounds = textoSecundario.getLocalBounds();
+        textoSecundario.setPosition(cajaError.getPosition().x + (cajaError.getSize().x - bounds.width) / 2,
                                cajaError.getPosition().y + (cajaError.getSize().y - bounds.height) / 2 - 7);
         //se indica que existe un error para no permitir el funcionamiento del programa hasta que se solucione
         error = true;
-    }else if(prueba /*funcion que me diga si la palabra existe*/) {
+    }else if(error  /*funcion que me diga si la palabra existe*/) {
         //se añade el texto del error
-        textoError.setString("Por favor ingrese una palabra existente");
+        textoSecundario.setString("Por favor ingrese una palabra existente");
         //se obtiene la caja que delimita el texto
-        sf::FloatRect bounds = textoError.getLocalBounds();
+        sf::FloatRect bounds = textoSecundario.getLocalBounds();
         //se utiliza esta caja para darle el tamaño a la caja de error
         cajaError.setSize(sf::Vector2f(bounds.width + 30,40));
         //se le calcula la pocision con ayuda del tamaño de la ventana y asi poder centrarlo de manera mas precisa
         cajaError.setPosition((window.getSize().x - cajaError.getSize().x)/2,window.getSize().y - 60);
         //se posiciona el texto en la mitdad del cuadrado
-        textoError.setPosition(cajaError.getPosition().x + (cajaError.getSize().x - bounds.width) / 2,
+        textoSecundario.setPosition(cajaError.getPosition().x + (cajaError.getSize().x - bounds.width) / 2,
                                cajaError.getPosition().y + (cajaError.getSize().y - bounds.height) / 2 - 7);
-
+        //indica que si hay un error en la linea
         error = true;
     }
     if(error){
         //Se dibuja tanto la caja como el texto en la pantalla si hay errores
         window.draw(cajaError);
-        window.draw(textoError);
+        window.draw(textoSecundario);
     }
 }
 
@@ -292,4 +283,227 @@ void Vista::imprimir(){
     }
     //se imprime por pantalla to do lo anteriormente dibujado
     window.display();
+}
+
+void Vista::cambiarColorCuadro() {
+    //para saber si es igual a la palabra final
+    int igual = 0;
+    //recorremos toda la cadena de caracteres para verificar si hay algun caracter igual a la palabra final
+    for(int i = 0; i < 4; i++){
+        if(palabras[palabras.size()-1][i] == palabrasEstaticas[1][i]){
+            //si lo hay cambia el color de del cuadro donde esta la letra igual
+            cuadrados[cuadrados.size()-1][i].setFillColor(sf::Color(110, 235, 101));
+            //tambien cambia el color del cuadro donde es igual a la palabra final
+            cuadrosEstaticos[1][i].setFillColor(sf::Color(15, 255, 0));
+            igual++;
+        }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
+            //si no es validad si el cuadro esta pintado de verde y si lo esta lo devuelve al color original
+            cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
+        }
+    }
+    if(igual == 4){
+        //si se llega a tener 4 coincidencias indica que la palbra escitra por el usuario es igual a la palabra final por ende gano
+        winer = true;
+    }
+}
+
+void Vista::devolverColor(){
+    for(int i = 0; i < 4; i++){
+        //recorre los cuadrados y valida si aguno esta de color verda
+        if(cuadrados[cuadrados.size()-1][i].getFillColor() == sf::Color(110, 235, 101)){
+            //si lo esta lo cambia a color trasparente para dejarlo como es originalmente
+            cuadrados[cuadrados.size()-1][i].setFillColor(sf::Color::Transparent);
+        }
+        if(palabras.size() != 1) {
+            //valida si palabras tiene mas de dos palabras dentro
+            if(palabras[palabras.size()-2][i] == palabrasEstaticas[1][i])
+            {
+                //si tiene mas de dos valida la antepenultima sigue teniendo coincidencias con la palabra final
+                //y le cambia el color a los cuadros de la palabra final
+                cuadrosEstaticos[1][i].setFillColor(sf::Color(15, 255, 0));
+            }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
+                // si la letra no es igual valida si esta de color verde y si lo esta lo cambia a su color original
+                cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
+            }
+        }else if(cuadrosEstaticos[1][i].getFillColor() == sf::Color(15, 255, 0)){
+            //por ultimo palabras solo tiene una palabra o no tiene palabras cambia el color de los cuadros de la palbra final que esten en verde a su color original
+            cuadrosEstaticos[1][i].setFillColor(sf::Color(196, 196, 196));
+        }
+    }
+}
+
+void Vista::ganador(){
+
+    window.clear(sf::Color::White);
+    //titulo de la pantalla
+    textoSecundario.setString("Winer");
+    //ponemos el titulo del menu un poco mas grande
+    textoSecundario.setCharacterSize(60.f);
+    //lo pocisionamos en la mitad de la pantalla pero lo desplazamos un poco hacia arriba puesto que interrumpia los botones
+    textoSecundario.setPosition((window.getSize().x - texto.getLocalBounds().width)/2, ((window.getSize().y - texto.getLocalBounds().height)/2) - 100.f );
+    //imptimimos el texto
+    window.draw(textoSecundario);
+    //opciones que van a existir en el menu
+    std::vector<std::string> menu = {"Ver solucion Optima", "Volver"};
+    //Se arregla el tamaño de la letra
+    textoSecundario.setCharacterSize(20.f);
+    for(int i = 0; i < 2; i++){
+        //se agrega el texto del boton
+        textoSecundario.setString(menu[i]);
+        //todos los cambios se realizan siempre y cuando se este creando el vector de botones
+        if(botones.size() < 2) {
+            //se crea un nuevo objeto de botones y se le pasa el tamaño del texto para si ajueste de mejor manera
+            botones.push_back(Boton(textoSecundario.getLocalBounds()));
+            //se pone en mitad de la pantalla para mejor estetica
+            botones[i].caja.setPosition((window.getSize().x - botones[i].caja.getSize().x)/2,((window.getSize().y - botones[i].caja.getSize().y)/2)+(70.f*(i+1))-70.f);
+            //se iguala la caja de coliciones nueva a la del cuadro que contiene el texto para que este cambie cuando lo valide
+            botones[i].cajaColision = botones[i].caja.getGlobalBounds();
+        }
+        //se pone el texto en donde se pusieron anteriormente los botoenes y se calcula para que quede en el centro del boton
+        textoSecundario.setPosition(botones[i].caja.getPosition().x + (botones[i].caja.getSize().x - textoSecundario.getLocalBounds().width) / 2,
+                          botones[i].caja.getPosition().y + (botones[i].caja.getSize().y - textoSecundario.getLocalBounds().height) / 2 - 7);
+        //se dibuja lo necesario
+        window.draw(botones[i].caja);
+        window.draw(textoSecundario);
+        //si el boton se ecuentra seleccionado y se deja de seleccionar cambia de color
+        if( botones[i].caja.getFillColor() == sf::Color(196, 196, 196)) {
+            botones[i].caja.setFillColor(sf::Color::Transparent);
+        }
+    }
+    //se muestra to do por pantalla
+    window.display();
+}
+
+void Vista::inicio(){
+
+    window.clear(sf::Color::White);
+    //se agrega el titulo del juego
+    textoSecundario.setString("Weaver");
+    //se agranda el tamaño del texto
+    textoSecundario.setCharacterSize(60.f);
+    //se le asigna una posicon en la mitad de la pantalla pero un poco mas arriba para no interrumpir a los botones
+    textoSecundario.setPosition((window.getSize().x - texto.getLocalBounds().width)/2, ((window.getSize().y - texto.getLocalBounds().height)/2) - 100.f );
+    //se dibuja le texto
+    window.draw(textoSecundario);
+    //la opciones que contine este menu
+    std::vector<std::string> menu = {"Empezar", "Cargar partida", "Salir"};
+    //se le asigna su tamaño normal
+    texto.setCharacterSize(20.f);
+    for(int i = 0; i < menu.size(); i++){
+        //se agraga el contenido de los botones
+        textoSecundario.setString(menu[i]);
+        //Se ejecuta esto solo si el vector botones se esta creando si esta creado no se va a ejecutar puesto que no se necesita
+        if(botones.size() < menu.size()) {
+            //crea las cajas de los botones
+            botones.push_back(Boton(texto.getLocalBounds()));
+            //se le pone una posicon en medio de la pantalla
+            botones[i].caja.setPosition((window.getSize().x - botones[i].caja.getSize().x)/2,((window.getSize().y - botones[i].caja.getSize().y)/2)+(70.f*(i+1))-70.f);
+            //se obtiene la ubicacion del cuadro para asi guardar donde se encuentra el boton y poder interactual
+            botones[i].cajaColision = botones[i].caja.getGlobalBounds();
+        }
+        //se pone el texto en los botones pertinentes
+        textoSecundario.setPosition(botones[i].caja.getPosition().x + (botones[i].caja.getSize().x - texto.getLocalBounds().width) / 2,
+                          botones[i].caja.getPosition().y + (botones[i].caja.getSize().y - texto.getLocalBounds().height) / 2 - 7);
+        //dibuja el texto y la caja
+        window.draw(botones[i].caja);
+        window.draw(textoSecundario);
+        //Si el boton esta con otro color debe regresarlo al color original
+        if( botones[i].caja.getFillColor() == sf::Color(196, 196, 196)) {
+            botones[i].caja.setFillColor(sf::Color::Transparent);
+        }
+    }
+    //muestra to do por pantalla
+    window.display();
+}
+
+void Vista::menus(){
+    //asigna un tamaño a la ventana
+    window.create(sf::VideoMode(600,700), "SFML Window", sf::Style::Close);
+    //para validar si ya se imprimio lo que esta dentro del menu para asi poder realizar los cambios de color en los botones
+    bool cont = true;
+    //lama a la funcuion inicio
+    inicio();
+    while(window.isOpen()) {
+        while (window.pollEvent(eventos)) {
+            if (eventos.type == sf::Event::Closed) {
+                window.close();
+            }
+            if(!winer){
+                //si no hay ganador
+                if(colisionConBoton()){
+                    inicio();
+                    cont = false;
+                    switch (click()) {
+                        case 0:
+                            botones.clear();
+                            principal();
+                            break;
+                        case 1:
+                            std::cout << "Pongana la funcion que hace eso" << std::endl;
+                            break;
+                        case 2:
+                            window.close();
+                            break;
+                        case -1:
+                            break;
+                    }
+                }else if (!cont){
+                    cont = true;
+                    inicio();
+                }
+            }else if(winer) {
+                if(botones.empty()){
+                    ganador();
+                }
+                if (colisionConBoton()) {
+                    ganador();
+                    cont = false;
+                    switch (click()) {
+                        case 0:
+                            botones.clear();
+                            std::cout << "Pongana la funcion que hace eso" << std::endl;
+                            break;
+                        case 1:
+                            botones.clear();
+                            winer = false;
+                            break;
+                        case -1:
+                            break;
+                    }
+                } else if (!cont) {
+                    cont = true;
+                    ganador();
+                }
+            }
+        }
+    }
+}
+
+bool Vista::colisionConBoton(){
+    mouse = sf::Mouse::getPosition(window);
+    if(!botones.empty()) {
+        for (int i = 0; i < botones.size(); i++) {
+            if (botones[i].cajaColision.contains(static_cast<float>(mouse.x), static_cast<float>(mouse.y))) {
+                botones[i].caja.setFillColor(sf::Color(196, 196, 196));
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int Vista::click(){
+
+        if (eventos.type == sf::Event::MouseButtonPressed){
+            if (eventos.mouseButton.button == sf::Mouse::Left){
+                mouse = sf::Mouse::getPosition(window);
+                for (int i = 0; i < botones.size(); i++) {
+                    if(botones[i].cajaColision.contains(static_cast<float>(mouse.x), static_cast<float>(mouse.y))) {
+                        std::cout << i << std::endl;
+                        return i;
+                    }
+                }
+            }
+        }
+    return -1;
 }

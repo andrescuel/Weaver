@@ -2,6 +2,6 @@
 
 int main() {
     Vista vista;
-    vista.principal();
+    vista.menus();
     return 0;
 }
