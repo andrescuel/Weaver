@@ -10,7 +10,9 @@
 #include <queue>
 #include <unordered_map>
 #include <limits>
+#include <algorithm>
 #include "List.cpp"
+
 using namespace std;
 
 template<class T>

@@ -360,7 +360,7 @@ void Vista::ganador(){
 
     window.clear(sf::Color::White);
     //titulo de la pantalla
-    textoSecundario.setString("Winer");
+    textoSecundario.setString("Winner");
     //ponemos el titulo del menu un poco mas grande
     textoSecundario.setCharacterSize(60.f);
     //lo pocisionamos en la mitad de la pantalla pero lo desplazamos un poco hacia arriba puesto que interrumpia los botones
@@ -463,7 +463,7 @@ void Vista::menus(){
                         //nos dice que se cambio el color
                         colicion = false;
                     }
-                        switch (click()) {
+                    switch (click()) {
                         //si hace click en alguna de las opciones limpia los botones para que se puedan crear de manera correcta en el siguiente menu
                         case 0:
                             botones.clear();
@@ -558,6 +558,7 @@ void Vista::menus(){
             else if(cargar){
                 std::cout << "se guardo partida" << std::endl;
                 botones.clear();
+                pausado = false;
                 cargar = false;
                 principal();
             }
