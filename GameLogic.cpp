@@ -42,10 +42,7 @@ void GameLogic::guardarPartida(const vector<string>& palabras, const string& nom
     ofstream archivoPartidaBorrar(nombreArchivo);
 
     if(archivoPartida.is_open()) {
-        if (!BancoPalabras::esArchivoVacio(archivoPartida)){
-            ofstream archivoPartidaBorrar(nombreArchivo, std::ios::trunc);
-            if(archivoPartidaBorrar.is_open()) archivoPartidaBorrar.close();
-        }
+        ofstream archivoPartidaBorrar(nombreArchivo, std::ios::trunc);
         for (const string& palabra : palabras) {
             if (palabra != "" && palabra != " ") archivoPartida << palabra << endl;
         }
