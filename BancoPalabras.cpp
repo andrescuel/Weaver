@@ -6,7 +6,6 @@ BancoPalabras::BancoPalabras(const vector<string>& palabras) : palabras(palabras
 
 BancoPalabras::BancoPalabras(const std::string &pathPalabras) {
     ifstream archivoPalabras(pathPalabras);
-
     if(archivoPalabras.is_open() && !BancoPalabras::esArchivoVacio(archivoPalabras)) {
         std::string line;
         while (std::getline(archivoPalabras, line)) {
@@ -16,11 +15,15 @@ BancoPalabras::BancoPalabras(const std::string &pathPalabras) {
 }
 
 bool BancoPalabras::esPalabraValida(const string& palabra) {
-    string palabraLower = palabra;
+    string palabraLower;
     // Convierte a minusculas
-    std::transform(palabraLower.begin(), palabraLower.end(), palabraLower.begin(),
-                   [](unsigned char c) { return std::tolower(c); });
-    // Revisar si está dentro del vector de palabras
+    for(char letra: palabra){
+        if(letra == '\321'){
+            palabraLower.append("ñ");
+        }else{
+            palabraLower += std::tolower(letra);
+        }
+    }
     return find(palabras.begin(), palabras.end(), palabraLower) != palabras.end();
 }
 

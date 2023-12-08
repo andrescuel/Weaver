@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Solucionador.h"
+#include "GameLogic.h"
 
 struct Boton {
     //guarda la caja de los botones que se van a crear
@@ -54,6 +55,7 @@ class Vista {
     sf::Texture pausa;
     //cuadrado de pausa
     bool pausado;
+    GameLogic logica;
 
 public:
     //encargado de inicializar todas las respectivas variables

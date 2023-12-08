@@ -19,7 +19,7 @@ Boton::Boton(){
 
 Vista::Vista(){
     //se utiliza para establecer la configuración regional o localización en un programa y que asi funcione la ñ
-    setlocale(LC_ALL, "spanish");
+
     //ingresa el tipo de la fuete
     if(!fuente.loadFromFile("C:/Windows/Fonts/COOPBL.TTF")){
         //si no la encuentra avisa
@@ -77,6 +77,7 @@ void Vista::reseteo(){
     palabras.push_back("");
 
     //añade las palabras inicial y final que se va a tener durante el juego
+    //palabrasEstaticas = logica.mostarPalabrasInicioYFin();
     palabrasEstaticas.push_back("LIMA");
     palabrasEstaticas.push_back("LOMO");
 
@@ -256,7 +257,7 @@ void Vista::imprimirCuadradosEstaticos(){
 
 void Vista::imprimirErrores(){
 
-    if(error /*funcion que me diga si se cambio mas de una letra*/){
+   /* if(!logica.difiereUnaLetra(palabras[palabras.size()-2], palabras[palabras.size()-1])){
         //si se ha cambiado mas de una palabra salta un error
         //se modifica el tamaño de la caja para ajustarse mejor al texto emergente
         cajaError.setSize(sf::Vector2f(250,40));
@@ -270,7 +271,8 @@ void Vista::imprimirErrores(){
                                cajaError.getPosition().y + (cajaError.getSize().y - bounds.height) / 2 - 7);
         //se indica que existe un error para no permitir el funcionamiento del programa hasta que se solucione
         error = true;
-    }else if(error  /*funcion que me diga si la palabra existe*/) {
+    }else */if(!logica.esPalabraValida(palabras[palabras.size() - 1])){
+        cout << "dentro de if" << endl;
         //se añade el texto del error
         textoSecundario.setString("Por favor ingrese una palabra existente");
         //se obtiene la caja que delimita el texto
