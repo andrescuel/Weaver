@@ -39,13 +39,15 @@ vector<string> GameLogic::mostarPalabrasInicioYFin() {
 
 void GameLogic::guardarPartida(const vector<string>& palabras, const string& nombreArchivo) {
     fstream archivoPartida(nombreArchivo);
+    ofstream archivoPartidaBorrar(nombreArchivo);
+
     if(archivoPartida.is_open()) {
-        /*if (!BancoPalabras::esArchivoVacio(archivoPartida)){
+        if (!BancoPalabras::esArchivoVacio(archivoPartida)){
             ofstream archivoPartidaBorrar(nombreArchivo, std::ios::trunc);
             if(archivoPartidaBorrar.is_open()) archivoPartidaBorrar.close();
-        }*/
+        }
         for (const string& palabra : palabras) {
-            archivoPartida << palabra << endl;
+            if (palabra != "" && palabra != " ") archivoPartida << palabra << endl;
         }
     }
 }
