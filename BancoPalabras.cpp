@@ -16,8 +16,12 @@ BancoPalabras::BancoPalabras(const std::string &pathPalabras) {
 }
 
 bool BancoPalabras::esPalabraValida(const string& palabra) {
+    string palabraLower = palabra;
+    // Convierte a minusculas
+    std::transform(palabraLower.begin(), palabraLower.end(), palabraLower.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
     // Revisar si está dentro del vector de palabras
-    return find(palabras.begin(), palabras.end(), palabra) != palabras.end();
+    return find(palabras.begin(), palabras.end(), palabraLower) != palabras.end();
 }
 
 vector<string> BancoPalabras::getPalabrasRegex(const string& regex_str) {
