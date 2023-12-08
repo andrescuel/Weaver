@@ -12,6 +12,7 @@ struct Boton {
     sf::FloatRect cajaColision;
     //contructor que me permite crear Botonones con el tamaño correspondiente y sus caracteristicas principales
     Boton(sf::FloatRect);
+    Boton();
 };
 
 class Vista {
@@ -47,6 +48,12 @@ class Vista {
     std::vector<Boton> botones;
     //encargado de guardar la posicon del mouse en un momento determinado para su correcto tratamiento
     sf::Vector2i mouse;
+    //colicion
+    bool colicion;
+    //imagen de pausa
+    sf::Texture pausa;
+    //cuadrado de pausa
+    bool pausado;
 
 public:
     //encargado de inicializar todas las respectivas variables
@@ -79,6 +86,8 @@ public:
     bool colisionConBoton();
     //controla cuando el usuario hace click sobre los botones y devulve sobre que boton se hizo click
     int click();
+    void parar();
+
 };
 
 #endif //WEAVER_VISTA_H
