@@ -257,7 +257,9 @@ void Vista::imprimirCuadradosEstaticos(){
 
 void Vista::imprimirErrores(){
 
-   /* if(!logica.difiereUnaLetra(palabras[palabras.size()-2], palabras[palabras.size()-1])){
+    bool diferente = (palabras.size() <= 1) ?( logica.difiereUnaLetra(palabrasEstaticas[0], palabras[0]))
+            :(logica.difiereUnaLetra(palabras[palabras.size()-2], palabras[palabras.size()-1]));
+   if(!diferente){
         //si se ha cambiado mas de una palabra salta un error
         //se modifica el tamaño de la caja para ajustarse mejor al texto emergente
         cajaError.setSize(sf::Vector2f(250,40));
@@ -271,7 +273,7 @@ void Vista::imprimirErrores(){
                                cajaError.getPosition().y + (cajaError.getSize().y - bounds.height) / 2 - 7);
         //se indica que existe un error para no permitir el funcionamiento del programa hasta que se solucione
         error = true;
-    }else */if(!logica.esPalabraValida(palabras[palabras.size() - 1])){
+    }else if(!logica.esPalabraValida(palabras[palabras.size() - 1])){
         cout << "dentro de if" << endl;
         //se añade el texto del error
         textoSecundario.setString("Por favor ingrese una palabra existente");
@@ -502,7 +504,10 @@ void Vista::menus(){
                     switch (click()) {
                         case 0:
                             botones.clear();
-                            std::cout << "Pongana la funcion que hace eso" << std::endl;
+                            palabras.clear();
+                            palabras = logica.encontrarCaminoMinimoPalabras(palabrasEstaticas[0], palabrasEstaticas[1]);
+                            winer = false;
+                            principal();
                             break;
                         case 1:
                             //lo devuelve al menu de inicio
