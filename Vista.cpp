@@ -45,6 +45,11 @@ Vista::Vista(){
     winer = false;
     //inicializa el color que debe tener la caja de error
     cajaError.setFillColor(sf::Color(255, 0, 0));
+    colicion = true;
+    guardar = false;
+    cargar = false;
+    pausado = false;
+    loser = false;
 }
 
 void Vista::reseteo(){
@@ -75,11 +80,13 @@ void Vista::reseteo(){
 
     //añade un espacio vacio a las palabras para facilitar su manupulacion
     palabras.push_back("");
-
+    int difultad = 10;
     //añade las palabras inicial y final que se va a tener durante el juego
-    //palabrasEstaticas = logica.mostarPalabrasInicioYFin();
-    palabrasEstaticas.push_back("LIMA");
-    palabrasEstaticas.push_back("LOMO");
+    //palabrasEstaticas = logica.mostarPalabrasInicioYFin(difultad);
+    if(!cargar) {
+        palabrasEstaticas.push_back("LIMA");
+        palabrasEstaticas.push_back("LOMO");
+    }
 
     for(int i = 0; i < 4; i++) {
         //modidica el color, los bordes y los bordes de los cuadrados añadir una linea nueva cada
@@ -92,6 +99,42 @@ void Vista::reseteo(){
     cuadrados.push_back(linea);
 }
 
+void Vista::insertarPalabras(const std::vector<std::string>& npalabras){
+    reseteo();
+
+    palabras = npalabras;
+    int cont = 0;
+    palabrasEstaticas.push_back(palabras[0]);
+    palabrasEstaticas.push_back(palabras[palabras.size()-1]);
+
+    palabras.erase(palabras.begin());
+    palabras.erase(palabras.end());
+
+    for(int i = 0; i < palabras.size()-1; i++) {
+        for (int j = 0; j < 4; j++) {
+            //modidica el color, los bordes y los bordes de los cuadrados añadir una linea nueva cada
+            //que el usuario toque enter
+            if(palabras[i][j] == palabrasEstaticas[1][j]) {
+                //si lo hay cambia el color de del cuadro donde esta la letra igual
+                cuadrados[i][j].setFillColor(sf::Color(110, 235, 101));
+                //tambien cambia el color del cuadro donde es igual a la palabra final
+                cuadrosEstaticos[1][j].setFillColor(sf::Color(15, 255, 0));
+            }
+            else{
+                linea[cont].setFillColor(sf::Color::Transparent);
+                cuadrosEstaticos[1][j].setFillColor(sf::Color(196, 196, 196));
+            }
+            linea[cont].setOutlineColor(sf::Color(196, 196, 196));
+            linea[cont].setOutlineThickness(2.f);
+
+        }
+        //añade la primer liena a cuadrados para que el usuario mire donde esta escribiendo
+        cuadrados.push_back(linea);
+        cont = (cont < 4) ?(cont++) :(0);
+    }
+    inicioVisible = (palabras.size() <= 3) ?(0) :(palabras.size() - 3);
+}
+
 void Vista::principal(){
 
     botones.push_back(Boton());
@@ -99,10 +142,6 @@ void Vista::principal(){
     botones[0].cajaColision = botones[0].caja.getGlobalBounds();
     //imprime las palabras iniciales y el primer reglon de escritura
     imprimir();
-    std::cout << "Tamaño de cuadrados: " << cuadrados.size() << std::endl;
-    std::cout << "Tamaño de palabrasEstaticas: " << palabrasEstaticas.size() << std::endl;
-    std::cout << "Tamaño de cuadrosEstaticos: " << cuadrosEstaticos.size() << std::endl;
-    std::cout << "Tamaño de palabras: " << palabras.size() << std::endl;
     //Se ejecuta mientras no se halla ganado el juego
     while(!winer){
         while (window.pollEvent(eventos)) {
@@ -164,8 +203,6 @@ void Vista::escritura(){
         if(winer){
             //si el usuario gana se borra lo que creado para asi estar listos por si quiere volver a jugar
             reseteo();
-            //llama al menu de ganador
-            ganador();
             //sale de la funcion puesto que no es necesario que se repita mas despues de conseguir un ganador
             return;
         }else {
@@ -362,220 +399,252 @@ void Vista::devolverColor(){
     }
 }
 
-void Vista::ganador(){
-
+void Vista::menuGeneral(const std::string& titulo, const std::vector<std::string>& opciones){
     window.clear(sf::Color::White);
     //titulo de la pantalla
-    textoSecundario.setString("Winner");
+    textoSecundario.setString(titulo);
     //ponemos el titulo del menu un poco mas grande
     textoSecundario.setCharacterSize(60.f);
     //lo pocisionamos en la mitad de la pantalla pero lo desplazamos un poco hacia arriba puesto que interrumpia los botones
-    textoSecundario.setPosition((window.getSize().x - textoSecundario.getLocalBounds().width)/2, ((window.getSize().y - textoSecundario.getLocalBounds().height)/2) - 100.f );
+    textoSecundario.setPosition((window.getSize().x - textoSecundario.getLocalBounds().width)/2, ((window.getSize().y - textoSecundario.getLocalBounds().height)/2) - (opciones.size())*50.f );
     //imptimimos el texto
     window.draw(textoSecundario);
     //opciones que van a existir en el menu
-    std::vector<std::string> menu = {"Ver solucion Optima", "Volver"};
     //Se arregla el tamaño de la letra
     textoSecundario.setCharacterSize(20.f);
-    for(int i = 0; i < 2; i++){
+    for(int i = 0; i < opciones.size(); i++){
         //se agrega el texto del boton
-        textoSecundario.setString(menu[i]);
+        textoSecundario.setString(opciones[i]);
         //todos los cambios se realizan siempre y cuando se este creando el vector de botones
-        if(botones.size() < 2) {
+        if(botones.size() < opciones.size()) {
             //se crea un nuevo objeto de botones y se le pasa el tamaño del texto para si ajueste de mejor manera
             botones.push_back(Boton(textoSecundario.getLocalBounds()));
             //se pone en mitad de la pantalla para mejor estetica
-            botones[i].caja.setPosition((window.getSize().x - botones[i].caja.getSize().x)/2,((window.getSize().y - botones[i].caja.getSize().y)/2)+(70.f*(i+1))-70.f);
+            if(guardar){
+                botones[i].caja.setPosition((window.getSize().x - botones[i].caja.getSize().x)/2 + (i+1)*botones[i].caja.getSize().x - 170.f,
+                                            ((window.getSize().y - botones[i].caja.getSize().y)/2) + 100.f);
+            }else{
+                botones[i].caja.setPosition((window.getSize().x - botones[i].caja.getSize().x)/2,
+                                            ((window.getSize().y - botones[i].caja.getSize().y)/2)+ (i+1)*65.f- 40.f*(opciones.size()));
+            }
             //se iguala la caja de coliciones nueva a la del cuadro que contiene el texto para que este cambie cuando lo valide
             botones[i].cajaColision = botones[i].caja.getGlobalBounds();
         }
+        //si el boton se ecuentra seleccionado y se deja de seleccionar cambia de color
+        if( botones[i].caja.getFillColor() == sf::Color(196, 196, 196) && !colicion) {
+            botones[i].caja.setFillColor(sf::Color::Transparent);
+        }
         //se pone el texto en donde se pusieron anteriormente los botoenes y se calcula para que quede en el centro del boton
         textoSecundario.setPosition(botones[i].caja.getPosition().x + (botones[i].caja.getSize().x - textoSecundario.getLocalBounds().width) / 2,
-                          botones[i].caja.getPosition().y + (botones[i].caja.getSize().y - textoSecundario.getLocalBounds().height) / 2 - 7);
+                                    botones[i].caja.getPosition().y + (botones[i].caja.getSize().y - textoSecundario.getLocalBounds().height) / 2 - 7);
         //se dibuja lo necesario
         window.draw(botones[i].caja);
         window.draw(textoSecundario);
-        //si el boton se ecuentra seleccionado y se deja de seleccionar cambia de color
-        if( botones[i].caja.getFillColor() == sf::Color(196, 196, 196)) {
-            botones[i].caja.setFillColor(sf::Color::Transparent);
-        }
+
     }
     //se muestra to do por pantalla
     window.display();
 }
 
-void Vista::inicio(){
-    window.clear(sf::Color::White);
-    //se agrega el titulo del juego
-    textoSecundario.setString("Weaver");
-    //se agranda el tamaño del texto
-    textoSecundario.setCharacterSize(60.f);
-    //se le asigna una posicon en la mitad de la pantalla pero un poco mas arriba para no interrumpir a los botones
-    textoSecundario.setPosition((window.getSize().x - textoSecundario.getLocalBounds().width)/2, ((window.getSize().y - textoSecundario.getLocalBounds().height)/2) - 100.f );
-    //se dibuja le texto
-    window.draw(textoSecundario);
-    //la opciones que contine este menu
-    std::vector<std::string> menu = {"Empezar", "Cargar partida", "Salir"};
-    //se le asigna su tamaño normal
-    textoSecundario.setCharacterSize(20.f);
-    for(int i = 0; i < menu.size(); i++){
-        //se agraga el contenido de los botones
-        textoSecundario.setString(menu[i]);
-        //Se ejecuta esto solo si el vector botones se esta creando si esta creado no se va a ejecutar puesto que no se necesita
-        if(botones.size() < menu.size()) {
-            //crea las cajas de los botones
-            botones.push_back(Boton(textoSecundario.getLocalBounds()));
-            //se le pone una posicon en medio de la pantalla
-            botones[i].caja.setPosition((window.getSize().x - botones[i].caja.getSize().x)/2,((window.getSize().y - botones[i].caja.getSize().y)/2)+(70.f*(i+1))-70.f);
-            //se obtiene la ubicacion del cuadro para asi guardar donde se encuentra el boton y poder interactual
-            botones[i].cajaColision = botones[i].caja.getGlobalBounds();
-        }
-        //se pone el texto en los botones pertinentes
-        //Si el boton esta con otro color debe regresarlo al color original
-        if( botones[i].caja.getFillColor() == sf::Color(196, 196, 196) && !colicion) {
-            botones[i].caja.setFillColor(sf::Color::Transparent);
-        }
-        textoSecundario.setPosition(botones[i].caja.getPosition().x + (botones[i].caja.getSize().x - textoSecundario.getLocalBounds().width) / 2,
-                          botones[i].caja.getPosition().y + (botones[i].caja.getSize().y - textoSecundario.getLocalBounds().height) / 2 - 7);
-        //dibuja el texto y la caja
-        window.draw(botones[i].caja);
-        window.draw(textoSecundario);
+void Vista::menuInicio(){
 
+    //si no hay ganador
+    if(colisionConBoton()){
+        //y si coliciono con algun boton entonces se vuelve a imprimir t odo pero con diferente color
+        if(colicion){
+            menuGeneral("Weaver", {"Empezar", "Cargar partida", "Salir"});
+            //nos dice que se cambio el color
+            colicion = false;
+        }
+        switch (click()) {
+            //si hace click en alguna de las opciones limpia los botones para que se puedan crear de manera correcta en el siguiente menu
+            case 0:
+                botones.clear();
+                //llama a donde se va ejecutarel juego
+                principal();
+                return;
+            case 1:
+                //llama a la funciond donde se va a cargar una partida
+                cargar = true;
+                return;
+            case 2:
+                //salir lo saca del programa
+                window.close();
+                return;
+            case -1:
+                //no se preciono le click
+                return;
+        }
+    }else if (!colicion){
+        //se cambia el color a trasparente
+        menuGeneral("Weaver", {"Empezar", "Cargar partida", "Salir"});
+        colicion = true;
     }
-    //muestra to do por pantalla
-    window.display();
 }
 
-void Vista::menus(){
-    //asigna un tamaño a la ventana
-    window.create(sf::VideoMode(600,700), "SFML Window", sf::Style::Close);
-    //para validar si ya se imprimio lo que esta dentro del menu para asi poder realizar los cambios de color en los botones
-    colicion = true;
-    bool guardar = false;
-    bool cargar = false;
-    //lama a la funcuion inicio que muestra el menu inicio
-    inicio();
-    while(window.isOpen()) {
-        while (window.pollEvent(eventos)) {
-            if (eventos.type == sf::Event::Closed) {
-                window.close();
+void Vista::menuWinnerOrLoser(){
+    //misma logica que el menu de inicio
+    if(botones.empty()){
+        reseteo();
+        if(loser){
+            menuGeneral("Loser", {"Ver solucion Optima", "Volver"});
+        }else if(winer) {
+            menuGeneral("Winer", {"Ver solucion Optima", "Volver"});
+        }
+    }
+    if (colisionConBoton()) {
+        if(colicion) {
+            if(loser){
+                menuGeneral("Loser", {"Ver solucion Optima", "Volver"});
+            }else if(winer) {
+                menuGeneral("Winer", {"Ver solucion Optima", "Volver"});
             }
-            if(!winer && !pausado && !cargar){
-                //si no hay ganador
-                if(colisionConBoton()){
-                    //y si coliciono con algun boton entonces se vuelve a imprimir t odo pero con diferente color
-                    if(colicion){
-                        inicio();
-                        //nos dice que se cambio el color
-                        colicion = false;
-                    }
-                    switch (click()) {
-                        //si hace click en alguna de las opciones limpia los botones para que se puedan crear de manera correcta en el siguiente menu
-                        case 0:
-                            botones.clear();
-                            //llama a donde se va ejecutarel juego
-                            principal();
-                            break;
-                        case 1:
-                            //llama a la funciond donde se va a cargar una partida
-                            cargar = true;
-                            break;
-                        case 2:
-                            //salir lo saca del programa
-                            window.close();
-                            break;
-                        case -1:
-                            //no se preciono le click
-                            break;
-                    }
-                }else if (!colicion){
-                    //se cambia el color a trasparente
-                    inicio();
-                    colicion = true;
-                }
-            }
-            else if(winer && !pausado) {
-                //misma logica que el menu de inicio
-                if(botones.empty()){
-                    ganador();
-                }
-                if (colisionConBoton()) {
-                    if(colicion) {
-                        ganador();
-                        colicion = false;
-                    }
-                    switch (click()) {
-                        case 0:
-                            botones.clear();
-                            palabras.clear();
-                            palabras = logica.encontrarCaminoMinimoPalabras(palabrasEstaticas[0], palabrasEstaticas[1]);
-                            winer = false;
-                            principal();
-                            break;
-                        case 1:
-                            //lo devuelve al menu de inicio
-                            botones.clear();
-                            winer = false;
-                            break;
-                        case -1:
-                            break;
-                    }
-                } else if (!colicion) {
-                    ganador();
-                    colicion = true;
+            colicion = false;
+        }
+        switch (click()) {
+            case 0:
+                botones.clear();
+                palabras.clear();
+                palabras = logica.encontrarCaminoMinimoPalabras(palabrasEstaticas[0], palabrasEstaticas[1]);
+                winer = false;
+                loser = false;
+                principal();
+                return;
+            case 1:
+                //lo devuelve al menu de inicio
+                botones.clear();
+                winer = false;
+                loser = false;
+                return;
+            case -1:
+                return;
+        }
+    } else if (!colicion) {
+        cout << "entre";
+        if(loser){
+            menuGeneral("Loser", {"Ver solucion Optima", "Volver"});
+        }else if(winer) {
+            menuGeneral("Winer", {"Ver solucion Optima", "Volver"});
+        }
+        colicion = true;
 
-                }
-            }
-            else if(pausado && !guardar && !cargar){
-                if(botones.empty()){
-                    parar();
-                }
-                if (colisionConBoton()) {
-                    if(colicion) {
-                        parar();
-                        colicion = false;
-                    }
-                    switch (click()) {
-                        case 0:
-                            botones.clear();
-                            pausado = false;
-                            principal();
-                            break;
-                        case 1:
-                            guardar = true;
-                            break;
-                        case 2:
-                            cargar = true;
-                            break;
-                        case 3:
-                            pausado = false;
-                            reseteo();
-                            break;
-                        case -1:
-                            //no se preciono le click
-                            break;
-                    }
-                } else if (!colicion) {
-                    parar();
-                    colicion = true;
-                }
-            }
-            else if(guardar){
-                cout << "guarde partida";
+    }
+}
+
+void Vista::menuPausa(){
+    if(botones.empty()){
+        menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Guardar partida", "Cargar partida", "Salir"});
+    }
+    if (colisionConBoton()) {
+        if(colicion) {
+            menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Guardar partida", "Cargar partida", "Salir"});
+            colicion = false;
+        }
+        switch (click()) {
+            case 0:
+                botones.clear();
+                pausado = false;
+                principal();
+                return;
+            case 1:
+                botones.clear();
+                loser = true;
+                winer = false;
+                pausado = false;
+                return;
+            case 2:
+                botones.clear();
+                guardar = true;
+                return;
+            case 3:
+                botones.clear();
+                cargar = true;
+                return;
+            case 4:
+                pausado = false;
+                reseteo();
+                return;
+            case -1:
+                //no se preciono le click
+                return;
+        }
+    } else if (!colicion) {
+        menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Guardar partida", "Cargar partida", "Salir"});
+        colicion = true;
+    }
+}
+
+void Vista::menuCargar(){
+    botones.clear();
+    pausado = false;
+    insertarPalabras((logica.cargarPartida("../archivos/hola1.txt")));
+    cargar = false;
+    principal();
+}
+
+void Vista::menuGuardar(){
+    std::string nombre;
+
+    if(botones.empty()){
+        menuGeneral("Guardando", {"Aceptar", "Cancelar"});
+    }
+    if (colisionConBoton()) {
+        if(colicion) {
+            menuGeneral("Guardando", {"Aceptar", "Cancelar"});
+            colicion = false;
+        }
+        switch (click()) {
+            case 0:
+                botones.clear();
                 palabras.insert(palabras.begin(),palabrasEstaticas[0]);
                 palabras.push_back(palabrasEstaticas[1]);
                 logica.guardarPartida(palabras, "../archivos/hola1.txt");
                 palabras.erase(palabras.begin());
                 palabras.pop_back();
                 guardar = false;
-            }
-            else if(cargar){
+                return;
+            case 1:
                 botones.clear();
-                pausado = false;
-                cargar = false;
-                reseteo();
-                palabras = logica.cargarPartida("../archivos/hola1.txt");
-                principal();
+                guardar = false;
+                return;
+            case -1:
+                //no se preciono le click
+                return;
+        }
+    } else if (!colicion) {
+        menuGeneral("Guardando", {"Aceptar", "Cancelar"});
+        colicion = true;
+    }
+
+
+}
+
+void Vista::menus(){
+    //asigna un tamaño a la ventana
+    window.create(sf::VideoMode(600,700), "SFML Window", sf::Style::Close);
+    //para validar si ya se imprimio lo que esta dentro del menu para asi poder realizar los cambios de color en los botones
+
+    menuGeneral("Weaver", {"Empezar", "Cargar partida", "Salir"});
+    while(window.isOpen()) {
+        while (window.pollEvent(eventos)) {
+            if (eventos.type == sf::Event::Closed) {
+                window.close();
+            }
+            if(!winer && !pausado && !cargar && !loser){
+                menuInicio();
+            }
+            else if((winer && !pausado) || (loser && !pausado)) {
+
+                menuWinnerOrLoser();
+            }
+            else if(pausado && !guardar && !cargar){
+               menuPausa();
+            }
+            else if(guardar){
+                menuGuardar();
+            }
+            else if(cargar) {
+                menuCargar();
             }
         }
     }
@@ -619,44 +688,7 @@ int Vista::click(){
     return -1;
 }
 
-void Vista::parar(){
-    window.clear(sf::Color::White);
-    //se agrega el titulo del juego
-    textoSecundario.setString("Pausa");
-    //se agranda el tamaño del texto
-    textoSecundario.setCharacterSize(60.f);
-    //se le asigna una posicon en la mitad de la pantalla pero un poco mas arriba para no interrumpir a los botones
-    textoSecundario.setPosition((window.getSize().x - textoSecundario.getLocalBounds().width)/2, ((window.getSize().y - textoSecundario.getLocalBounds().height)/2) - 200.f );
-    //se dibuja le texto
-    window.draw(textoSecundario);
-    //la opciones que contine este menu
-    std::vector<std::string> menu = {"Cotinuar", "Guardar partida", "Cargar partida", "Salir"};
-    //se le asigna su tamaño normal
-    textoSecundario.setCharacterSize(20.f);
-    for(int i = 0; i < menu.size(); i++){
-        //se agraga el contenido de los botones
-        textoSecundario.setString(menu[i]);
-        //Se ejecuta esto solo si el vector botones se esta creando si esta creado no se va a ejecutar puesto que no se necesita
-        if(botones.size() < menu.size()) {
-            //crea las cajas de los botones
-            botones.push_back(Boton(textoSecundario.getLocalBounds()));
-            //se le pone una posicon en medio de la pantalla
-            botones[i].caja.setPosition((window.getSize().x - botones[i].caja.getSize().x)/2,((window.getSize().y - botones[i].caja.getSize().y)/2)+(70.f*(i+1))-150.f);
-            //se obtiene la ubicacion del cuadro para asi guardar donde se encuentra el boton y poder interactual
-            botones[i].cajaColision = botones[i].caja.getGlobalBounds();
-        }
-        //se pone el texto en los botones pertinentes
-        //Si el boton esta con otro color debe regresarlo al color original
-        if( botones[i].caja.getFillColor() == sf::Color(196, 196, 196) && !colicion) {
-            botones[i].caja.setFillColor(sf::Color::Transparent);
-        }
-        textoSecundario.setPosition(botones[i].caja.getPosition().x + (botones[i].caja.getSize().x - textoSecundario.getLocalBounds().width) / 2,
-                                    botones[i].caja.getPosition().y + (botones[i].caja.getSize().y - textoSecundario.getLocalBounds().height) / 2 - 7);
-        //dibuja el texto y la caja
-        window.draw(botones[i].caja);
-        window.draw(textoSecundario);
-
-    }
-    //muestra to do por pantalla
-    window.display();
+void Vista::tiempo(){
+    reloj.restart();
+    segundos = reloj.getElapsedTime();
 }

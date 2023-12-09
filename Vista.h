@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include "Solucionador.h"
 #include "GameLogic.h"
+#include <chrono>
 
 struct Boton {
     //guarda la caja de los botones que se van a crear
@@ -56,6 +57,12 @@ class Vista {
     //cuadrado de pausa
     bool pausado;
     GameLogic logica;
+    bool guardar;
+    bool cargar;
+    sf::Clock reloj;
+    sf::Time tiempoRestante;
+    sf::Time segundos;
+    bool loser;
 
 public:
     //encargado de inicializar todas las respectivas variables
@@ -78,18 +85,20 @@ public:
     void cambiarColorCuadro();
     //cambia el color al borrar las palabras
     void devolverColor();
-    //Menu para cuando se gana
-    void ganador();
-    //Menu para empezar el juego
-    void inicio();
     //donde se llaman todos los menus y se controla la logica de inicio del juego
     void menus();
     //controla el cambio de color de los botones cuando el mouse esta sobre este
     bool colisionConBoton();
     //controla cuando el usuario hace click sobre los botones y devulve sobre que boton se hizo click
     int click();
-    void parar();
-
+    void menuInicio();
+    void menuWinnerOrLoser();
+    void menuPausa();
+    void menuCargar();
+    void menuGuardar();
+    void insertarPalabras(const std::vector<std::string>&);
+    void menuGeneral(const std::string& , const std::vector<std::string>& );
+    void tiempo();
 };
 
 #endif //WEAVER_VISTA_H
