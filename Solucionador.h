@@ -1,28 +1,34 @@
-//
-// Created by rubio on 1/12/2023.
-//
-
 #ifndef WEAVER_SOLUCIONADOR_H
 #define WEAVER_SOLUCIONADOR_H
 
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <fstream>
+#include <sstream>
 
 #include "BancoPalabras.h"
+#include "Graph.h"
 
 using namespace std;
 
 class Solucionador {
 private:
-    BancoPalabras* bancoPalabras;
-    unordered_map<string, vector<string>> bucket;
+    Graph<string> grafoPalabras;
+    fstream archivoBucket;
 
-    static bool difiereUnaLetra(const string& palabra1, const string& palabra2);
-    void construirGrafo(const vector<string> &palabras);
+    void construirGrafo();
+    unordered_map<string, vector<string>> construirBucket();
 
 public:
-    Solucionador(const vector<string>& palabras);
+    BancoPalabras bancoPalabras;
+    Solucionador(const vector<string>& palabras, const string& pathBucket);
+    Solucionador(const string& pathPalabras, const string& pathBucket);
+
+    vector<string> encontrarCaminoMinimoPalabras(const string& p1, const string& p2);
+
+    unordered_map<string, vector<string>> getBucket();
+    Graph<string> getGrafoPalabras();
 };
 
 

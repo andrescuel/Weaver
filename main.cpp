@@ -1,6 +1,8 @@
-#include <iostream>
+#include "Vista.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+    setlocale(LC_ALL, "spanish");
+    Vista vista;
+    vista.menus();
     return 0;
 }
