@@ -21,7 +21,7 @@ bool BancoPalabras::esPalabraValida(const string& palabra) {
         if(letra == '\321'){
             palabraLower.append("ñ");
         }else{
-            palabraLower += std::tolower(letra);
+            palabraLower += tolower(letra);
         }
     }
     return find(palabras.begin(), palabras.end(), palabraLower) != palabras.end();

@@ -1,10 +1,11 @@
 #include "Solucionador.h"
 
-Solucionador::Solucionador(const vector<string>& palabras, const string& pathBucket): bancoPalabras(palabras), archivoBucket(pathBucket) {
+Solucionador::Solucionador(const vector<string>& palabras, const string& pathBucket): bancoPalabras(palabras), pathBucket(pathBucket) {
+    construirGrafo();
 }
 
-Solucionador::Solucionador(const string &pathPalabras, const string &pathBucket): bancoPalabras(pathPalabras), archivoBucket(pathBucket) {
-
+Solucionador::Solucionador(const string& pathPalabras, const string& pathBucket): bancoPalabras(pathPalabras), pathBucket(pathBucket) {
+    construirGrafo();
 }
 
 void Solucionador::construirGrafo() {
@@ -19,6 +20,7 @@ void Solucionador::construirGrafo() {
 
 unordered_map<string, vector<string>> Solucionador::getBucket() {
     unordered_map<string, vector<string>> bucket;
+    fstream archivoBucket(pathBucket, ios::out|ios::in|ios::app);
 
     if(archivoBucket.is_open() && !BancoPalabras::esArchivoVacio(archivoBucket)) {
         std::string line;
@@ -35,26 +37,29 @@ unordered_map<string, vector<string>> Solucionador::getBucket() {
 
             bucket[key] = values;
         }
-        return bucket;
     }
     else {
         bucket = construirBucket();
 
-        for (const auto& par : bucket) {
-            // Escribir la key primero
-            archivoBucket << par.first << ' ';
+        if(archivoBucket.is_open()) {
+            archivoBucket.seekg(0, ios::beg);
+            for (const auto& par : bucket) {
+                // Escribir la key primero
+                archivoBucket << par.first << ' ';
 
-            // Escribir los valores que almacena el vector
-            for (const auto& value : par.second) {
-                archivoBucket << value << ' ';
+                // Escribir los valores que almacena el vector
+                for (const auto& value : par.second) {
+                    archivoBucket << value << ' ';
+                }
+
+                // Añadir un enter para cada par key-valor
+                archivoBucket << '\n';
             }
-
-            // Añadir un enter para cada par key-valor
-            archivoBucket << '\n';
         }
-
-        return bucket;
     }
+
+    archivoBucket.close();
+    return bucket;
 }
 
 Graph<string> Solucionador::getGrafoPalabras() {
@@ -66,7 +71,7 @@ unordered_map<string, vector<string>> Solucionador::construirBucket() {
     unordered_map<string, vector<string>> bucket;
 
     for (size_t i = 0; i < palabras.size(); i++){
-        for (size_t j = i + 1; i < palabras.size(); j++){
+        for (size_t j = i + 1; j < palabras.size(); j++){
             if (BancoPalabras::difiereUnaLetra(palabras[i], palabras[j])) {
                 bucket[palabras[i]].push_back(palabras[j]);
                 bucket[palabras[j]].push_back(palabras[i]);

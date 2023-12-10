@@ -87,8 +87,8 @@ vector<T> Graph<T>::dijkstraShortestPath(const T &inicio, const T &fin) const {
     // Inicializar distancias con 'infinito' y predecesores con nulo
     for (Vertex<T>* vertice : vertexList) {
         distancias[vertice->data] = numeric_limits<int>::max();
-        predecesores[vertice->data] = nullptr;
     }
+    cout << "Salgo del for" << endl;
 
     // Establecer la distancia al vértice de inicio como 0
     distancias[inicio] = 0;
@@ -97,12 +97,14 @@ vector<T> Graph<T>::dijkstraShortestPath(const T &inicio, const T &fin) const {
     pq.push({0, getVertex(inicio)});
 
     // Algoritmo de Dijkstra
+    cout << "Entro al while" << endl;
     while (!pq.empty()) {
         Vertex<T>* verticeActual = pq.top().second;
         int distanciaActual = pq.top().first;
         pq.pop();
 
         // Si llegamos al vértice de destino, reconstruir el camino y devolverlo
+        cout << verticeActual->data << endl;
         if (verticeActual->data == fin) {
             vector<T> camino;
             T actual = fin;

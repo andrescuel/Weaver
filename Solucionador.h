@@ -15,7 +15,7 @@ using namespace std;
 class Solucionador {
 private:
     Graph<string> grafoPalabras;
-    fstream archivoBucket;
+    string pathBucket;
 
     void construirGrafo();
     unordered_map<string, vector<string>> construirBucket();
