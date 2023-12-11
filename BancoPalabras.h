@@ -23,6 +23,7 @@ public:
     static bool difiereUnaLetra(const string& palabra1, const string& palabra2);
     static bool esArchivoVacio(fstream& archivo);
     static bool esArchivoVacio(ifstream& archivo);
+    static string toLowerCase(const string& palabra);
 };
 
 #endif //WEAVER_BANCOPALABRAS_H

@@ -17,13 +17,7 @@ BancoPalabras::BancoPalabras(const std::string &pathPalabras) {
 bool BancoPalabras::esPalabraValida(const string& palabra) {
     string palabraLower;
     // Convierte a minusculas
-    for(char letra: palabra){
-        if(letra == '\321'){
-            palabraLower.append("ñ");
-        }else{
-            palabraLower += tolower(letra);
-        }
-    }
+    palabraLower = toLowerCase(palabra);
     return find(palabras.begin(), palabras.end(), palabraLower) != palabras.end();
 }
 
@@ -62,4 +56,16 @@ bool BancoPalabras::esArchivoVacio(fstream& archivo) {
 
 bool BancoPalabras::esArchivoVacio(ifstream& archivo) {
     return archivo.peek() == ifstream::traits_type::eof();
+}
+
+string BancoPalabras::toLowerCase(const string &palabra) {
+    string palabraLower;
+    for(char letra: palabra){
+        if(letra == '\321'){
+            palabraLower.append("ñ");
+        }else{
+            palabraLower += tolower(letra);
+        }
+    }
+    return palabraLower;
 }

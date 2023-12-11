@@ -83,7 +83,7 @@ unordered_map<string, vector<string>> Solucionador::construirBucket() {
 }
 
 vector<string> Solucionador::encontrarCaminoMinimoPalabras(const string &p1, const string &p2) {
-    return grafoPalabras.dijkstraShortestPath(p1, p2);
+    return grafoPalabras.dijkstraShortestPath(BancoPalabras::toLowerCase(p1), BancoPalabras::toLowerCase(p2));
 }
 
 
