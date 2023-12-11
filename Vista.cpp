@@ -596,7 +596,6 @@ void Vista::menuCargar(){
         menuGeneral("Pausa",partidasGuardadas);
         colicion = true;
     }
-    cout << "hola";
 }
 
 void Vista::menuGuardar(){
