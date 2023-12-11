@@ -21,46 +21,15 @@ vector<string> GameLogic::encontrarCaminoMinimoPalabras(const string &p1, const 
 
 vector<string> GameLogic::mostarPalabrasInicioYFin(int& dificultad) {
     vector<string> palabrasInicioFin;
-    vector<string> visitados;
-    Vertex<string>* palabraInicio;
-    Vertex<string>* palabraFin;
-    bool fueVisitado = false;
 
-    std::random_device rd;   // Obtener una semilla aleatoria del dispositivo
-    std::mt19937 gen(rd());  // generador
-    std::uniform_int_distribution<> distribucion(4, solucionador.getGrafoPalabras().vertexList.size() - 2); // rango
-    int randomNum = distribucion(gen);
+    srand(time(0));
 
-    palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum);
-    palabraFin = palabraInicio;
+    int inicio = rand() % 2700, fin = rand() % 2700;
 
-    // facil dificultad = 1
-    // medio dificultad = 2
-    // dificil dificultad = 3
-    for (int i = 0; i < pow(randomNum,dificultad); i++){
-        if (palabraFin->connectedTo.size() > 0){
-            for (const string& v : visitados){
-                if (v == palabraFin->data){
-                    fueVisitado = true;
-                    break;
-                }
-            }
-            if (!fueVisitado) {
-                visitados.push_back(palabraFin->data);
-                palabraFin = palabraFin->connectedTo.get(0)->to;
-            }
-        }
-        else if (palabraFin->connectedTo.size() < 1 && i < pow(randomNum,dificultad) / 2){
-            palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum + 1);
-            palabraFin = palabraInicio;
-        }
-        else {
-            break;
-        }
-    }
-    palabrasInicioFin.push_back(palabraInicio->data);
-    palabrasInicioFin.push_back(palabraFin->data);
-
+    palabrasInicioFin.push_back(solucionador.bancoPalabras.getPalabras()[inicio]);
+    palabrasInicioFin.push_back(solucionador.bancoPalabras.getPalabras()[fin]);
+    palabrasInicioFin[0] = solucionador.bancoPalabras.devolver(palabrasInicioFin[0]);
+    palabrasInicioFin[1] = solucionador.bancoPalabras.devolver(palabrasInicioFin[1]);
     return palabrasInicioFin;
 }
 

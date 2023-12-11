@@ -69,3 +69,15 @@ string BancoPalabras::toLowerCase(const string &palabra) {
     }
     return palabraLower;
 }
+
+string BancoPalabras::devolver(const string &palabra) {
+    string palabraLower;
+    for(char letra: palabra){
+        if(letra == '\xf1'){
+            palabraLower.append("Ñ");
+        }else{
+            palabraLower += toupper(letra);
+        }
+    }
+    return palabraLower;
+}

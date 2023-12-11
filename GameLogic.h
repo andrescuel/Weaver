@@ -7,6 +7,7 @@
 #include "Solucionador.h"
 #include <random>
 #include <cmath>
+#include <time.h>
 
 class GameLogic {
     Solucionador solucionador;

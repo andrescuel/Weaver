@@ -82,10 +82,9 @@ void Vista::reseteo(){
     palabras.push_back("");
     int difultad = 10;
     //añade las palabras inicial y final que se va a tener durante el juego
-    //palabrasEstaticas = logica.mostarPalabrasInicioYFin(difultad);
+
     if(!cargar) {
-        palabrasEstaticas.push_back("LIMA");
-        palabrasEstaticas.push_back("LOMO");
+        palabrasEstaticas = logica.mostarPalabrasInicioYFin(difultad);
     }
 
     for(int i = 0; i < 4; i++) {
@@ -100,6 +99,7 @@ void Vista::reseteo(){
 }
 
 void Vista::insertarPalabras(const std::vector<std::string>& npalabras){
+
     reseteo();
 
     palabras = npalabras;
@@ -452,7 +452,7 @@ void Vista::menuInicio(){
     if(colisionConBoton()){
         //y si coliciono con algun boton entonces se vuelve a imprimir t odo pero con diferente color
         if(colicion){
-            menuGeneral("Weaver", {"Empezar", "Cargar partida", "Salir"});
+            menuGeneral("Weaver", {"Empezar", "Salir"});
             //nos dice que se cambio el color
             colicion = false;
         }
@@ -463,12 +463,12 @@ void Vista::menuInicio(){
                 //llama a donde se va ejecutarel juego
                 principal();
                 return;
-            case 1:
+            case 2:
                 //llama a la funciond donde se va a cargar una partida
                 botones.clear();
                 cargar = true;
                 return;
-            case 2:
+            case 1:
                 //salir lo saca del programa
                 window.close();
                 return;
@@ -478,7 +478,7 @@ void Vista::menuInicio(){
         }
     }else if (!colicion){
         //se cambia el color a trasparente
-        menuGeneral("Weaver", {"Empezar", "Cargar partida", "Salir"});
+        menuGeneral("Weaver", {"Empezar", "Salir"});
         colicion = true;
     }
 }
@@ -488,24 +488,23 @@ void Vista::menuWinnerOrLoser(){
     if(botones.empty()){
         reseteo();
         if(loser){
-            menuGeneral("Loser", {"Ver solucion Optima", "Volver"});
+            menuGeneral("Loser", {"Ver posibles soluciones", "Volver"});
         }else if(winer) {
-            menuGeneral("Winer", {"Ver solucion Optima", "Volver"});
+            menuGeneral("Winer", {"Ver posibles soluciones", "Volver"});
         }
     }
     if (colisionConBoton()) {
         if(colicion) {
             if(loser){
-                menuGeneral("Loser", {"Ver solucion Optima", "Volver"});
+                menuGeneral("Loser", {"Ver posibles soluciones", "Volver"});
             }else if(winer) {
-                menuGeneral("Winer", {"Ver solucion Optima", "Volver"});
+                menuGeneral("Winer", {"Ver posibles soluciones", "Volver"});
             }
             colicion = false;
         }
         switch (click()) {
             case 0:
                 botones.clear();
-                palabras.clear();
                 insertarPalabras(logica.encontrarCaminoMinimoPalabras(palabrasEstaticas[0], palabrasEstaticas[1]));
                 winer = false;
                 loser = false;
@@ -523,9 +522,9 @@ void Vista::menuWinnerOrLoser(){
     } else if (!colicion) {
         cout << "entre";
         if(loser){
-            menuGeneral("Loser", {"Ver solucion Optima", "Volver"});
+            menuGeneral("Loser", {"Ver posibles soluciones", "Volver"});
         }else if(winer) {
-            menuGeneral("Winer", {"Ver solucion Optima", "Volver"});
+            menuGeneral("Winer", {"Ver posibles soluciones", "Volver"});
         }
         colicion = true;
 
@@ -534,11 +533,11 @@ void Vista::menuWinnerOrLoser(){
 
 void Vista::menuPausa(){
     if(botones.empty()){
-        menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Guardar partida", "Cargar partida", "Salir"});
+        menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Salir"});
     }
     if (colisionConBoton()) {
         if(colicion) {
-            menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Guardar partida", "Cargar partida", "Salir"});
+            menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Salir"});
             colicion = false;
         }
         switch (click()) {
@@ -553,15 +552,15 @@ void Vista::menuPausa(){
                 winer = false;
                 pausado = false;
                 return;
-            case 2:
+            case 3:
                 botones.clear();
                 guardar = true;
                 return;
-            case 3:
+            case 4:
                 botones.clear();
                 cargar = true;
                 return;
-            case 4:
+            case 2:
                 pausado = false;
                 reseteo();
                 return;
@@ -570,7 +569,7 @@ void Vista::menuPausa(){
                 return;
         }
     } else if (!colicion) {
-        menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Guardar partida", "Cargar partida", "Salir"});
+        menuGeneral("Pausa",{"Cotinuar", "Rendirse", "Salir"});
         colicion = true;
     }
 }
@@ -640,7 +639,7 @@ void Vista::menus(){
     window.create(sf::VideoMode(600,700), "SFML Window", sf::Style::Close);
     //para validar si ya se imprimio lo que esta dentro del menu para asi poder realizar los cambios de color en los botones
 
-    menuGeneral("Weaver", {"Empezar", "Cargar partida", "Salir"});
+    menuGeneral("Weaver", {"Empezar", "Salir"});
     while(window.isOpen()) {
         while (window.pollEvent(eventos)) {
             if (eventos.type == sf::Event::Closed) {
@@ -656,12 +655,12 @@ void Vista::menus(){
             else if(pausado && !guardar && !cargar){
                menuPausa();
             }
-            else if(guardar){
+           /* else if(guardar){
                 menuGuardar();
             }
-            else if(cargar) {
+           else if(cargar) {
                 menuCargar();
-            }
+            }*/
         }
     }
 }

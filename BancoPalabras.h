@@ -24,6 +24,7 @@ public:
     static bool esArchivoVacio(fstream& archivo);
     static bool esArchivoVacio(ifstream& archivo);
     static string toLowerCase(const string& palabra);
+    static string devolver(const string& palabra);
 };
 
 #endif //WEAVER_BANCOPALABRAS_H
