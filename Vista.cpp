@@ -579,21 +579,21 @@ void Vista::menuCargar(){
     pausado = false;
     partidasGuardadas = logica.cargarPartida("../archivos/partidas.txt");
     if(botones.empty()){
-        menuGeneral("Cargar partida",partidasGuardadas);
+        menuGeneral("Pausa",partidasGuardadas);
     }
     if (colisionConBoton()) {
         if(colicion) {
-            menuGeneral("Cargar partida",partidasGuardadas);
+            menuGeneral("Pausa",partidasGuardadas);
             colicion = false;
 
         }
-        if(clikeado > 0 && clikeado < partidasGuardadas.size()){
+        if(clikeado > 0){
             insertarPalabras((logica.cargarPartida("../archivos/" + partidasGuardadas[clikeado])));
             cout << "entre" << endl;
             cargar = false;
         }
     } else if (!colicion) {
-        menuGeneral("Cargar partida",partidasGuardadas);
+        menuGeneral("Pausa",partidasGuardadas);
         colicion = true;
     }
 }
@@ -614,7 +614,7 @@ void Vista::menuGuardar(){
                 botones.clear();
                 palabras.insert(palabras.begin(),palabrasEstaticas[0]);
                 palabras.push_back(palabrasEstaticas[1]);
-                //logica.guardarPartida(palabras, "../archivos/hola1.txt");
+                logica.guardarPartida(palabras, "../archivos/hola1.txt");
                 palabras.erase(palabras.begin());
                 palabras.pop_back();
                 guardar = false;

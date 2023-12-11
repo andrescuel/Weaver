@@ -64,6 +64,7 @@ class Vista {
     bool loser;
     vector<string> partidasGuardadas;
     int clikeado;
+    int cont;
 
 public:
     //encargado de inicializar todas las respectivas variables
