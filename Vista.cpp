@@ -465,6 +465,7 @@ void Vista::menuInicio(){
                 return;
             case 1:
                 //llama a la funciond donde se va a cargar una partida
+                botones.clear();
                 cargar = true;
                 return;
             case 2:
@@ -575,11 +576,26 @@ void Vista::menuPausa(){
 }
 
 void Vista::menuCargar(){
-    botones.clear();
     pausado = false;
-    insertarPalabras((logica.cargarPartida("../archivos/hola1.txt")));
-    cargar = false;
-    principal();
+    partidasGuardadas = logica.cargarPartida("../archivos/partidas.txt");
+    if(botones.empty()){
+        menuGeneral("Pausa",partidasGuardadas);
+    }
+    if (colisionConBoton()) {
+        if(colicion) {
+            menuGeneral("Pausa",partidasGuardadas);
+            colicion = false;
+
+        }
+        if(clikeado > 0){
+            insertarPalabras((logica.cargarPartida("../archivos/" + partidasGuardadas[clikeado])));
+            cout << "entre" << endl;
+            cargar = false;
+        }
+    } else if (!colicion) {
+        menuGeneral("Pausa",partidasGuardadas);
+        colicion = true;
+    }
 }
 
 void Vista::menuGuardar(){
@@ -679,6 +695,7 @@ int Vista::click(){
                 //valida a que boton fue
                 if (botones[i].cajaColision.contains(static_cast<float>(mouse.x), static_cast<float>(mouse.y))) {
                     //devuelve el boton que se clickeo
+                    clikeado = i;
                     return i;
                 }
             }
@@ -686,9 +703,4 @@ int Vista::click(){
     }
     //no se clickeo nada;
     return -1;
-}
-
-void Vista::tiempo(){
-    reloj.restart();
-    segundos = reloj.getElapsedTime();
 }

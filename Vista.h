@@ -2,9 +2,11 @@
 #define WEAVER_VISTA_H
 
 #include <SFML/Graphics.hpp>
+#include <chrono>
+#include <thread>
+
 #include "Solucionador.h"
 #include "GameLogic.h"
-#include <chrono>
 
 struct Boton {
     //guarda la caja de los botones que se van a crear
@@ -59,10 +61,9 @@ class Vista {
     GameLogic logica;
     bool guardar;
     bool cargar;
-    sf::Clock reloj;
-    sf::Time tiempoRestante;
-    sf::Time segundos;
     bool loser;
+    vector<string> partidasGuardadas;
+    int clikeado;
 
 public:
     //encargado de inicializar todas las respectivas variables
@@ -98,7 +99,6 @@ public:
     void menuGuardar();
     void insertarPalabras(const std::vector<std::string>&);
     void menuGeneral(const std::string& , const std::vector<std::string>& );
-    void tiempo();
 };
 
 #endif //WEAVER_VISTA_H
