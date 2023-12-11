@@ -505,7 +505,7 @@ void Vista::menuWinnerOrLoser(){
             case 0:
                 botones.clear();
                 palabras.clear();
-                palabras = logica.encontrarCaminoMinimoPalabras(palabrasEstaticas[0], palabrasEstaticas[1]);
+                insertarPalabras(logica.encontrarCaminoMinimoPalabras(palabrasEstaticas[0], palabrasEstaticas[1]));
                 winer = false;
                 loser = false;
                 principal();
