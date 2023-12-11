@@ -687,8 +687,3 @@ int Vista::click(){
     //no se clickeo nada;
     return -1;
 }
-
-void Vista::tiempo(){
-    reloj.restart();
-    segundos = reloj.getElapsedTime();
-}
