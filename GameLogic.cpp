@@ -29,7 +29,7 @@ vector<string> GameLogic::mostarPalabrasInicioYFin(int& dificultad) {
     std::random_device rd;   // Obtener una semilla aleatoria del dispositivo
     std::mt19937 gen(rd());  // generador
     std::uniform_int_distribution<> distribucion(4, solucionador.getGrafoPalabras().vertexList.size() - 2); // rango
-    int randomNum = 2;
+    int randomNum = distribucion(gen);
 
     palabraInicio = solucionador.getGrafoPalabras().vertexList.get(randomNum);
     palabraFin = palabraInicio;
@@ -64,15 +64,24 @@ vector<string> GameLogic::mostarPalabrasInicioYFin(int& dificultad) {
     return palabrasInicioFin;
 }
 
-void GameLogic::guardarPartida(const vector<string>& palabras, const string& nombreArchivo) {
+void GameLogic::guardarPartida(const vector<string>& palabras, const int& numeroArchivo) {
+    string nombreArchivo = "Partida" + to_string(numeroArchivo);
     fstream archivoPartida(nombreArchivo);
     ofstream archivoPartidaBorrar(nombreArchivo);
+    ofstream archivoPartidas("../archivos/partidas.txt", std::ios::app);
 
     if(archivoPartida.is_open()) {
         ofstream archivoPartidaBorrar(nombreArchivo, std::ios::trunc);
         for (const string& palabra : palabras) {
             if (palabra != "" && palabra != " ") archivoPartida << palabra << endl;
         }
+        archivoPartida.close();
+    }
+    if(archivoPartidas.is_open()) {
+        for (const string& palabra : palabras) {
+            if (palabra != "" && palabra != " ") archivoPartida << palabra << endl;
+        }
+        archivoPartidas.close();
     }
 }
 

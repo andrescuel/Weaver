@@ -16,7 +16,7 @@ public:
     bool difiereUnaLetra(const string& palabra1, const string& palabra2);
     vector<string> encontrarCaminoMinimoPalabras(const string& p1, const string& p2);
     vector<string> mostarPalabrasInicioYFin(int& dificultad);
-    void guardarPartida(const vector<string>& palabras, const string& nombreArchivo);
+    void guardarPartida(const vector<string>& palabras, const int& numeroArchivo);
     vector<string> cargarPartida(const string& nombreArchivo);
 };
 
